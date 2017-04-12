@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>電卓アルゴリズム - Sachool Engineering Blog</title>
+  <meta name="author" content="Sackle">
+
+  
+  <meta name="description" content="エンジニアの学習の記録です。主に新入社員が更新していきます。">
+  <meta name="keywords" content="work アルゴリズム">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://sachool.jp/blog/entry/2016/05/06/calc-algo/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">var $220 = $.noConflict(true);</script>  
+  <script src="/blog/javascripts/menuToggle.js"></script>
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+
+  <link href="/blog/atom.xml" rel="alternate" title="Sachool Engineering Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" type="text/css">
+
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74244767-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">Sachool Engineering Blog</a></h1>
+  
+    <h2>プログラミング学習の記録</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<div id="nav-box">
+  <div id="toggle"><a href="#">Menu</a></div>
+  <ul class="main-navigation">
+    <li><a href="https://sachool.jp/" target="_blank">Sachool</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+  </ul>
+</div>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">電卓アルゴリズム</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+
+<time class='entry-date updated' datetime='2016-05-06T10:40:06+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:40 am</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>好きなサッカー選手はガットゥーゾです。<br/>
+こんにちは、東京オフィスのイッセイです。</p>
+
+<p>早速前回の続きを書いていきたいと思います。</p>
+
+<p>今回の課題</p>
+
+<h2>問題文</h2>
+
+<blockquote><p>「×」「÷」を加えた電卓アルゴリズムの作成<br/>
+２＋３×４＝１４<br/>
+となるようにして下さい。</p></blockquote>
+
+<!--more-->
+
+
+<p>解決しなければいけない問題がこれでした。</p>
+
+<p><strong>×、÷を優先する処理</strong></p>
+
+<p>モウホントチンプンカンプン。
+この時頭の中では、糸がぐるぐる絡まって、ほどけなくなっている状態。固結びが何個も出来ているような。<br/>
+絡まっている糸を一本ずつほどいていこうと格闘した後が以下の内容です。</p>
+
+<p>まず前回同様<br/>
+１つの演算子を使いまわす形で解決できるか考える。</p>
+
+<p>うーん、違う。優先できない、、</p>
+
+<p>恐らく１０秒はかかってます。<br/>
+しかし、そこでふと思ったのがこちら。</p>
+
+<ul>
+<li>一回目に＋－が入力されたら一度演算子を保留にしておいて、二度目に＋－が入力されたら一度目の演算子の左右の数値で演算を行う。</li>
+<li>二回目に×÷が入力されたら、もう一度数値を入力して×÷の左右にある数値で演算を行う。</li>
+<li>×÷の演算を終えたら変数に代入して加減算として最初に入力された数値と演算を行う。<br/>
+以上の繰り返しでどうか。</li>
+</ul>
+
+
+<p>よしよし、と紙に書いてみるもあっさり失敗。<br/>
+解決した風に書いてありますけど全然出来てないですね。<br/>
+連続で×÷が入力された時の処理を考えられていなかったです。<br/>
+もうそれはそれは驚異的に短絡的な考え方で、、</p>
+
+<p>はい。次！</p>
+
+<ul>
+<li>×÷が入力されたら、＋－が入力されるまで同じ処理を繰り返すようにする。</li>
+<li>一度目に入力された場合は、＋－が入力されるまでその演算結果を変数aに代入する。そして次の数値を変数bに入力し、同じ流れで＋－の入力を待つ。</li>
+<li>二度目に入力された場合は、一度目に入力されている演算子を記憶しておき、×÷を繰り返した演算結果を変数bに代入する。</li>
+<li>＋－が入力された時、変数aと変数bを記憶していた演算子で演算する。</li>
+</ul>
+
+
+<p>なんか近づいてきたような。<br/>
+ところがここで再び致命的なミス。</p>
+
+<p>「＝」が入力された場合の処理を考えていない、、</p>
+
+<p>そこで、＝が入力された時の事から考える。</p>
+
+<p><strong>＝の前に、＋－が入力されている場合</strong></p>
+
+<ul>
+<li>変数aと変数bを演算し、変数aに代入し変数aを表示して終了</li>
+</ul>
+
+
+<p><strong>＝の前に、×÷が入力されている場合。</strong></p>
+
+<ul>
+<li>変数aと変数bを演算し、変数aに代入し変数aを表示して終了。(問題はこの先)</li>
+</ul>
+
+
+<p><strong>更に前に＋－が入力されている場合</strong></p>
+
+<ul>
+<li>＋－の前の変数はaとするため、変数を1つ増やす必要がある。変数cを追加。</li>
+<li>×÷の後に変数cに数値を代入して変数bと変数cで演算を行い変数bに代入。これを×÷が出る限り繰り返す。</li>
+<li>そして、＝が入力されたら変数aと変数bを演算して変数aに代入。変数aを表示して終了。</li>
+<li>再び＋が入力された際は、その前の演算子で変数aと変数bを演算子変数aに代入。</li>
+</ul>
+
+
+<p>これで繰り返し処理を行う事ができ、×÷の優先にも対応する事ができます！！<br/>
+後はこの演算子を入力する変数をどうするかを考えるだけです。</p>
+
+<p><strong><em>最終的に導き出したもの</em></strong></p>
+
+<ul>
+<li>１度目の演算子入力はop1に。</li>
+<li>２度目の演算子入力はop2に。</li>
+<li>① op2の演算子入力で＋－が入力された場合は、<br/>
+変数aと変数bをop1で演算し変数aに代入。op2をop1に代入し、その後op2に演算子を入力する。</li>
+<li>② op2の演算子入力で×÷が入力された場合は、<br/>
+変数bと変数cをop2で演算し変数bに代入。その後op2に演算子を入力する。</li>
+<li>＝が入力された場合、変数aと変数bをop1で演算して変数aに代入し、変数aを表示して終了。</li>
+<li>op2に演算子を入力した後、①、②のどちらかのパターンを繰り返す。</li>
+</ul>
+
+
+<h2>実装して検証する。</h2>
+
+<p>上記で考えたものを実装していきます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> #include &lt;cstring&gt;
+</span><span class='line'> #include &lt;cctype&gt;
+</span><span class='line'> #include &lt;iostream&gt;
+</span><span class='line'> using namespace std;
+</span><span class='line'> int main(){
+</span><span class='line'>    double a,b,answer;
+</span><span class='line'>    char op1,op2;
+</span><span class='line'>    cout &lt;&lt;"演算開始\n加算：+ 減算：- 乗算：* 除算：/ 終了：=\n";
+</span><span class='line'>    
+</span><span class='line'>    for ( cin &gt;&gt; a ; !cin ; cin &gt;&gt; a){
+</span><span class='line'>        cin.clear();
+</span><span class='line'>        cin.ignore();
+</span><span class='line'>        cout &lt;&lt;"数値を入力して下さい";
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    answer = a;
+</span><span class='line'>    for ( cin &gt;&gt; op1; !(op1 == '+'||op1 == '-'||op1 == '*'||op1 == '/'||op1 == '='); cin &gt;&gt; op1){
+</span><span class='line'>        cin.clear();
+</span><span class='line'>        cin.ignore();
+</span><span class='line'>        cout &lt;&lt;"演算子をを入力して下さい";
+</span><span class='line'>    }
+</span><span class='line'>   
+</span><span class='line'>    if(op1 == '=') goto Ending;
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    for ( cin &gt;&gt; b ; !cin ; cin &gt;&gt; b){
+</span><span class='line'>        cin.clear();
+</span><span class='line'>        cin.ignore();
+</span><span class='line'>        cout &lt;&lt;"数値を入力して下さい";
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    for ( cin &gt;&gt; op2; !(op2 == '+'||op2 == '-'||op2 == '*'||op2 == '/'||op2 == '='); cin &gt;&gt; op2){
+</span><span class='line'>        cin.clear();
+</span><span class='line'>        cin.ignore();
+</span><span class='line'>        cout &lt;&lt;"演算子をを入力して下さい";
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    do{
+</span><span class='line'>        if(op2 == '+' || op2 == '-'){
+</span><span class='line'>            switch(op1){
+</span><span class='line'>                case '+' : a = a + b; break;
+</span><span class='line'>                case '-' : a = a - b; break;
+</span><span class='line'>                case '*' : a = a * b; break;
+</span><span class='line'>                case '/' : a = a / b; break;
+</span><span class='line'>            }
+</span><span class='line'>            op1 = op2;
+</span><span class='line'>            
+</span><span class='line'>            for ( cin &gt;&gt; b ; !cin ; cin &gt;&gt; b){
+</span><span class='line'>                cin.clear();
+</span><span class='line'>                cin.ignore();
+</span><span class='line'>                cout &lt;&lt;"数値を入力して下さい";
+</span><span class='line'>            }
+</span><span class='line'>        }else if(op2 =='*' || op2 == '/'){
+</span><span class='line'>            double c;
+</span><span class='line'>           
+</span><span class='line'>            for ( cin &gt;&gt; c ; !cin ; cin &gt;&gt; c){
+</span><span class='line'>                cin.clear();
+</span><span class='line'>                cin.ignore();
+</span><span class='line'>                cout &lt;&lt;"数値を入力して下さい";
+</span><span class='line'>            }
+</span><span class='line'>            switch(op2){
+</span><span class='line'>                case '*' : b = b * c; break;
+</span><span class='line'>                case '/' : b = b / c; break;
+</span><span class='line'>            }
+</span><span class='line'>        }else break;
+</span><span class='line'>        for ( cin &gt;&gt; op2; !(op2 == '+'||op2 == '-'||op2 == '*'||op2 == '/'||op2 == '='); cin &gt;&gt; op2){
+</span><span class='line'>            cin.clear();
+</span><span class='line'>            cin.ignore();
+</span><span class='line'>            cout &lt;&lt;"演算子をを入力して下さい";
+</span><span class='line'>        }
+</span><span class='line'>    }while(op2 != '=');
+</span><span class='line'>    
+</span><span class='line'>    switch(op1){
+</span><span class='line'>        case '+' : answer = a + b; break;
+</span><span class='line'>        case '-' : answer = a - b; break;
+</span><span class='line'>        case '*' : answer = a * b; break;
+</span><span class='line'>        case '/' : answer = a / b; break;
+</span><span class='line'>    }
+</span><span class='line'>    Ending :
+</span><span class='line'>    cout &lt;&lt; answer &lt;&lt;"\nfin";
+</span><span class='line'> }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>多々修正を行いました。<br/>
+実装してみて、ループの戻り先がハチャメチャだった事に気付いたからです。<br/>
+do-while文の部分は、実際作成したフローチャートではとても実装できるような処理の流れではありませんでした。<br/>
+しかし、コードのことを考えながらアルゴリズムを考える事ができればもう少し考えやすくなるかも、と思いました。以後試したいと思います。</p>
+
+<h3>まとめ</h3>
+
+<p>以上で今回の課題は終了ですが、中々苦戦したこの課題を通して大事な事を学びました。  <br/>
+私はこれまで無意識に、短絡的な考えのもと生活をしてきた事に気付きました。<br/>
+そしてそれがアルゴリズムを考えるだけでなくエンジニアとして生きていくうえで致命的であることを身をもって感じました。  <br/>
+求める結果から課題を導き、順序だてて解決していかなければならない。<br/>
+都度、論理的に考えられているか自分で確認しながら取り組んでいこうと思います。<br/>
+大事というか、今更かよ！的な話ですが、、<br/>
+こんな私の成長を、ブログから感じ取っていただけるよう今後も精進いたします。</p>
+</div>
+
+
+  <footer>
+
+    <p class="meta">
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/entry/categories/arugorizumu/'>アルゴリズム</a>, <a class='category' href='/blog/entry/categories/dentaku/'>電卓</a>
+  
+</span>
+
+
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">issei</span></span>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+    <a href="http://b.hatena.ne.jp/entry/https://sachool.jp/blog/entry/2016/05/06/calc-algo/" class="hatena-bookmark-button" data-hatena-bookmark-title="Sachool Engineering Blog" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://sachool.jp/blog/entry/2016/05/06/calc-algo/" data-via="" data-counturl="https://sachool.jp/blog/entry/2016/05/06/calc-algo/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/entry/2016/05/02/object-learning/" title="Previous Post: オブジェクト指向とは">&laquo; オブジェクト指向とは</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/entry/2016/05/09/github-webhook-usage/" title="Next Post: 【Github】Webhooksを利用する">【Github】Webhooksを利用する &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/two-month-later/">入社から二ヶ月が経って</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/">【Octopress】記事の投稿手順</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/burogu/">ブログ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/lp-research/">ランディングページの制作（競合調査・研究）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/new-first-project/">先輩に頼り完成出来た初プロジェクト</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/entry/categories/amp/'>amp (1)</a></li><li><a href='/blog/entry/categories/centos/'>centos (1)</a></li><li><a href='/blog/entry/categories/design/'>design (2)</a></li><li><a href='/blog/entry/categories/google/'>google (1)</a></li><li><a href='/blog/entry/categories/linux/'>linux (3)</a></li><li><a href='/blog/entry/categories/lp/'>lp (2)</a></li><li><a href='/blog/entry/categories/octopress/'>octopress (3)</a></li><li><a href='/blog/entry/categories/other/'>other (1)</a></li><li><a href='/blog/entry/categories/vagrant/'>vagrant (2)</a></li><li><a href='/blog/entry/categories/web/'>web (2)</a></li><li><a href='/blog/entry/categories/wordpress/'>wordpress (1)</a></li><li><a href='/blog/entry/categories/work/'>work (11)</a></li><li><a href='/blog/entry/categories/arugorizumu/'>アルゴリズム (6)</a></li><li><a href='/blog/entry/categories/obujekuto-shiko/'>オブジェクト指向 (1)</a></li><li><a href='/blog/entry/categories/kurasu-zu/'>クラス図 (2)</a></li><li><a href='/blog/entry/categories/purojekuto/'>プロジェクト (1)</a></li><li><a href='/blog/entry/categories/gengo/'>言語 (1)</a></li><li><a href='/blog/entry/categories/dentaku/'>電卓 (2)</a></li></ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Sackle -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  - <span class="credit">Theme by <a href="http://www.gehaxelt.in">Gehaxelt</a></span>
+  <span class="credit">and <a href="http://www.it-solutions-neef.de">IT Solutions Neef</a></span>
+</p>
+
+</footer>
+  
+
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+/*
+        var disqus_identifier = 'https://sachool.jp/blog/entry/2016/05/06/calc-algo/';
+        var disqus_url = 'https://sachool.jp/blog/entry/2016/05/06/calc-algo/';
+        var disqus_script = 'embed.js';
+*/
+
+var disqus_config = function () {
+this.page.url = 'https://sachool.jp/blog/entry/2016/05/06/calc-algo/'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = `https://sachool.jp/blog/entry/2016/05/06/calc-algo/`; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//sachool-blog.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//sachool-blog.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

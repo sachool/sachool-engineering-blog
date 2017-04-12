@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vagrant | Sachool Engineering Blog]]></title>
+  <link href="https://sachool.jp/blog/entry/categories/vagrant/atom.xml" rel="self"/>
+  <link href="https://sachool.jp/blog/"/>
+  <updated>2017-04-12T18:38:38+09:00</updated>
+  <id>https://sachool.jp/blog/</id>
+  <author>
+    <name><![CDATA[Sackle]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[新卒エンジニアがVagrantを使ってみた]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/11/vagrant-env/"/>
+    <updated>2016-05-11T15:13:54+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/11/vagrant-env</id>
+    <content type="html"><![CDATA[<p>どうも！仙台ファクトリー新卒のkouです。<br/>
+今回は、Vagrantを使ってみたのでまとめてみたいと思います。<br/>
+Vagrantを使って仮想OSの立ち上げまでできるようになることを目指します。</p>
+
+<!-- more -->
+
+
+<h2>１． Vagrantとは</h2>
+
+<h3>Vagrantの概要</h3>
+
+<p>Vagrantは、仮想環境を簡単に構築できるツールです。<br/>
+仮想化ソフトであるVirtual Boxと併用して使います。<br/>
+これまで面倒だった環境構築もコマンドを数行打つだけで完了させることができます。</p>
+
+<p>Vagrantを利用することで次のことが実現できます。</p>
+
+<ul>
+<li>ローカル環境と本番環境を揃える</li>
+<li>チームで開発する際の環境を揃える（＊構成管理ツールが必要）</li>
+</ul>
+
+
+<p>他にもいろいろできることはありますが、Vagrantを使うことでの最大の恩恵は
+<code>大幅な時間の節約</code><br/>
+これに尽きるのではないかと思います。  Vagrantの使い方を覚えることで、環境構築に費やす非生産的な時間から解放されて時間を有効に使えるようになると思います。</p>
+
+<h3>Vagrantで押さえておきたい用語</h3>
+
+<ul>
+<li><p>Boxファイル<br/>
+→Vagrant用にカスタマイズされたOSのイメージファイル。<br/>
+　ネット上で配布されているものもある。（配布先は後述）自作も可能。<br/>
+<code>＊BoxファイルがないとVagrantは使えないので注意</code></p></li>
+<li><p>Vagrantfile<br/>
+→仮想マシンの設定が書かれているファイル。<br/>
+　ネットワーク設定やマシンスペック設定などが書かれている。<br/>
+<code>＊Vagrant初期化時に生成される</code>
+　</p></li>
+</ul>
+
+
+<h2>２．事前準備</h2>
+
+<ul>
+<li><a href="https://www.virtualbox.org/">VirtualBox公式サイト</a>より、OSに合ったVirtualBoxをダウンロードしインストール</li>
+<li><a href="https://www.vagrantup.com/l">Vagrant公式サイト</a>より、OSに合ったVagrantをダウンロードしインストール</li>
+<li><a href="http://">Vagrantbox.es</a>（＊1）より、必要なboxファイルをダウンロードorリンクの取得</li>
+</ul>
+
+
+<h4>Vagrantがインストールされたか確認</h4>
+
+<p>Vagrantをインストールしたら、コマンドラインで
+<code>
+$ vagrant -v
+</code>
+を入力し、vagrantが正しくインストールされているか確認しましょう。
+<code>
+Vagrant 1.8.1
+</code>
+というようにバージョンが表示されれば正常にインストールされています。</p>
+
+<p>＊1 Vagrantbox.esは有志が作ったサイト。ここに公開されているBOXファイルの安全性は保障されてないので使用は自己責任で。</p>
+
+<h2>３．Vagrantの設定</h2>
+
+<p>ここからは、コマンドラインで操作を行います。</p>
+
+<h4>１．Boxの追加</h4>
+
+<pre><code>$ vagrant box add [Box名] [BoxのURL]
+
+例：boxファイルをサーバーから取得する場合
+$ vagrant box add centos http://github.com/~~~/centos.box
+
+例：boxファイルをフォルダから指定する場合
+$ vagrant box add centos C:/Users/[ユーザー名]/centos.box
+</code></pre>
+
+<h4>２．Boxの追加の確認</h4>
+
+<pre><code>$ vagrant box list
+</code></pre>
+
+<p>と入力し、
+<code>
+[Box名]
+</code>
+と表示されればVagrantへのBOXの追加は完了です。</p>
+
+<h4>３．作業用フォルダの作成</h4>
+
+<p>仮想環境用の作業フォルダを作成します。
+今回は（ユーザー名）ディレクトリ直下にcentosというフォルダを作成します。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ユーザーフォルダ直下に移動
+</span><span class='line'>$ cd /c/users/[ユーザー名]&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;centosフォルダを作成
+</span><span class='line'>$ mkdir centos&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;作成したフォルダに移動
+</span><span class='line'>$ cd centos</span></code></pre></td></tr></table></div></figure>
+＊フォルダの作成は、デスクトップ上で行っても構いません。</p>
+
+<p><code>vagrantを立ち上げる際は作成したフォルダに移動してから以降のコマンドを実行するようにします</code></p>
+
+<h4>４．vagrantの初期化</h4>
+
+<pre><code>$ vagrant init [Box名]
+例
+$ vagrant init centos
+</code></pre>
+
+<p>これで、centosフォルダ上に1.で追加したboxファイルを起動するように設定されたvagrantfileが作成されます。</p>
+
+<h4>５．vagrantの立ち上げ</h4>
+
+<pre><code>$ vagrant up
+</code></pre>
+
+<p>これでvagrantが起動し、仮想マシンが立ち上がります。</p>
+
+<h4>６．仮想マシンへログイン</h4>
+
+<pre><code>$ vagrant ssh
+</code></pre>
+
+<p>これで仮想マシンを弄れるようになります。
+＊windowsのコマンドプロンプトではssh接続ができないので、MinGWなどをインストールすることをお勧めします。</p>
+
+<h4>７．vagrantの終了</h4>
+
+<p>仮想マシンを弄り終わったら次のコマンドで停止してあげましょう。
+<code>
+$ vagrant halt
+</code></p>
+
+<h4>８．vagrantの削除</h4>
+
+<p>仮想マシンが不要になったら次のコマンドで削除できます。
+<code>
+$ vagrant destroy
+</code></p>
+
+<h2>４．まとめ</h2>
+
+<p>今回は、簡単なローカル開発環境の構築を行ってみました。
+まだまだ使いこなせてませんが、少しずつ使い慣れていきたいと思います。</p>
+
+<p>今後は、Chefも触ってみて環境構築も自動化することを目指したいと思います。
+自動化できるところは自動化して生産性UP!</p>
+
+<p>今回は以上です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【Vagrant】ブログの投稿環境をつくる]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/14/create-blog-env/"/>
+    <updated>2016-04-14T17:53:48+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/14/create-blog-env</id>
+    <content type="html"><![CDATA[<p>こんにちは、仙台ファクトリーのkish(@31_kish)です。</p>
+
+<p>ブログを投稿する環境の作り方を紹介します。<br/>
+配布したBOXファイルを使ってVagrantを立ち上げ、仮想環境のLinuxを操作します。</p>
+
+<p>CUIをバリバリ使う姿はかっこいいと思います！</p>
+
+<!-- more -->
+
+
+<h2>前提条件</h2>
+
+<ul>
+<li>VirtualBoxがインストールされている</li>
+<li>Vagrantがインストールされている</li>
+<li>シェルはbash<br/>
+私はWindowsでminttyを使っています。</li>
+</ul>
+
+
+<h3>VagrantにBOXファイルを追加する</h3>
+
+<pre><code>$ vagrant box add BOX_NAME BOX_FILE_URL
+</code></pre>
+
+<p><code>BOX_FILE_URL</code>にはBOXファイルがある場所を入力してください。<br/>
+<code>BOX_NAME</code>には任意の名前を入力してください。<br/>
+何のBOXなのかわかる名前が良いと思います。</p>
+
+<h3>Vagrant用のディレクトリを作成する</h3>
+
+<pre><code>$ mkdir blog
+</code></pre>
+
+<p><code>Vagrantfile</code>というVagrantの設定などが記載されたファイルを作るので<br/>
+それを保存するディレクトリを作成しましょう。<br/>
+BOXの名前と同じが良いと思います。</p>
+
+<h3>Vagrantfileの作成する</h3>
+
+<pre><code>$ cd blog
+$ vagrant init BOX_NAME
+</code></pre>
+
+<p>コマンドの実行前に先ほど作成したディレクトリに移動します。<br/>
+<code>vagrant init</code>を実行すると<code>Vagrantfile</code>が生成されます。</p>
+
+<h3>Vagrantfileを修正する</h3>
+
+<p>Octopressをローカルでプレビューするために<code>Vagrantfile</code>を修正します。</p>
+
+<pre><code>22   # Create a forwarded port mapping which allows access to a specific port
+23   # within the machine from a port on the host machine. In the example below,
+24   # accessing "localhost:8080" will access port 80 on the guest machine.
+25 -  # config.vm.network "forwarded_port", guest: 80, host: 8080
+25 + config.vm.network "forwarded_port", guest: 4000, host: 4040
+
+27  # Create a private network, which allows host-only access to the machine
+28   # using a specific IP.
+29 -  # config.vm.network "private_network", ip: "192.168.33.10"
+29 + config.vm.network "private_network", ip: "192.168.33.10"  
+</code></pre>
+
+<p><code>-</code>を<code>+</code>のように書き換えてください。</p>
+
+<h3>Vagrantを立ち上げる</h3>
+
+<pre><code>$ vagrant up
+</code></pre>
+
+<p><code>vagrant up</code>はVagrantfileのあるディレクトリで実行してください。<br/>
+立ち上げたいBOXのディレクトリで実行するとそのBOXが立ち上がります。</p>
+
+<h3>Vagrantに接続</h3>
+
+<pre><code>$ vagrant ssh
+</code></pre>
+
+<p>コマンドを実行するとsshでログインされます。<br/>
+私の環境ではこのコマンドでログインはできませんでした。<br/>
+sshコマンドで接続する方法もご紹介します。</p>
+
+<h3>SSHで接続したい</h3>
+
+<p>ホームディレクトリの<code>.ssh/config</code>を編集します。<br/>
+なければ作成してください。</p>
+
+<pre><code>Host sachool_blog
+  HostName 127.0.0.1
+  User vagrant
+  Port 2222
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile "C:/Users/***/.vagrant.d/boxes/blog/0/virtualbox/vagrant_private_key"
+  IdentitiesOnly yes
+  LogLevel FATAL
+</code></pre>
+
+<p><code>IdentityFile</code>の場所は各自変更してください。</p>
+
+<h3>コミットに表示される名前を変更する</h3>
+
+<p>sshでログインすることができましたか？<br/>
+ログインできたら、設定を変更しましょう。</p>
+
+<pre><code>$ cd ~
+$ vim .gitconfig
+</code></pre>
+
+<p><code>name</code>と<code>email</code>を自分のものに変更してください。</p>
+
+<p>以上で投稿する環境が整いました！<br/>
+投稿する手順については<a href="../posts-process/">こちら</a></p>
+]]></content>
+  </entry>
+  
+</feed>

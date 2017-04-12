@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://sachool.github.io/sachool-engineering-blog/sitemap.xml 
+Sitemap: https://sachool.jp/blog/sitemap.xml 

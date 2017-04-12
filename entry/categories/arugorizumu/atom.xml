@@ -1,0 +1,1214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: アルゴリズム | Sachool Engineering Blog]]></title>
+  <link href="https://sachool.jp/blog/entry/categories/arugorizumu/atom.xml" rel="self"/>
+  <link href="https://sachool.jp/blog/"/>
+  <updated>2017-04-12T18:38:38+09:00</updated>
+  <id>https://sachool.jp/blog/</id>
+  <author>
+    <name><![CDATA[Sackle]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[電卓アルゴリズム]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/06/calc-algo/"/>
+    <updated>2016-05-06T10:40:06+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/06/calc-algo</id>
+    <content type="html"><![CDATA[<p>好きなサッカー選手はガットゥーゾです。<br/>
+こんにちは、東京オフィスのイッセイです。</p>
+
+<p>早速前回の続きを書いていきたいと思います。</p>
+
+<p>今回の課題</p>
+
+<h2>問題文</h2>
+
+<blockquote><p>「×」「÷」を加えた電卓アルゴリズムの作成<br/>
+２＋３×４＝１４<br/>
+となるようにして下さい。</p></blockquote>
+
+<!--more-->
+
+
+<p>解決しなければいけない問題がこれでした。</p>
+
+<p><strong>×、÷を優先する処理</strong></p>
+
+<p>モウホントチンプンカンプン。
+この時頭の中では、糸がぐるぐる絡まって、ほどけなくなっている状態。固結びが何個も出来ているような。<br/>
+絡まっている糸を一本ずつほどいていこうと格闘した後が以下の内容です。</p>
+
+<p>まず前回同様<br/>
+１つの演算子を使いまわす形で解決できるか考える。</p>
+
+<p>うーん、違う。優先できない、、</p>
+
+<p>恐らく１０秒はかかってます。<br/>
+しかし、そこでふと思ったのがこちら。</p>
+
+<ul>
+<li>一回目に＋－が入力されたら一度演算子を保留にしておいて、二度目に＋－が入力されたら一度目の演算子の左右の数値で演算を行う。</li>
+<li>二回目に×÷が入力されたら、もう一度数値を入力して×÷の左右にある数値で演算を行う。</li>
+<li>×÷の演算を終えたら変数に代入して加減算として最初に入力された数値と演算を行う。<br/>
+以上の繰り返しでどうか。</li>
+</ul>
+
+
+<p>よしよし、と紙に書いてみるもあっさり失敗。<br/>
+解決した風に書いてありますけど全然出来てないですね。<br/>
+連続で×÷が入力された時の処理を考えられていなかったです。<br/>
+もうそれはそれは驚異的に短絡的な考え方で、、</p>
+
+<p>はい。次！</p>
+
+<ul>
+<li>×÷が入力されたら、＋－が入力されるまで同じ処理を繰り返すようにする。</li>
+<li>一度目に入力された場合は、＋－が入力されるまでその演算結果を変数aに代入する。そして次の数値を変数bに入力し、同じ流れで＋－の入力を待つ。</li>
+<li>二度目に入力された場合は、一度目に入力されている演算子を記憶しておき、×÷を繰り返した演算結果を変数bに代入する。</li>
+<li>＋－が入力された時、変数aと変数bを記憶していた演算子で演算する。</li>
+</ul>
+
+
+<p>なんか近づいてきたような。<br/>
+ところがここで再び致命的なミス。</p>
+
+<p>「＝」が入力された場合の処理を考えていない、、</p>
+
+<p>そこで、＝が入力された時の事から考える。</p>
+
+<p><strong>＝の前に、＋－が入力されている場合</strong></p>
+
+<ul>
+<li>変数aと変数bを演算し、変数aに代入し変数aを表示して終了</li>
+</ul>
+
+
+<p><strong>＝の前に、×÷が入力されている場合。</strong></p>
+
+<ul>
+<li>変数aと変数bを演算し、変数aに代入し変数aを表示して終了。(問題はこの先)</li>
+</ul>
+
+
+<p><strong>更に前に＋－が入力されている場合</strong></p>
+
+<ul>
+<li>＋－の前の変数はaとするため、変数を1つ増やす必要がある。変数cを追加。</li>
+<li>×÷の後に変数cに数値を代入して変数bと変数cで演算を行い変数bに代入。これを×÷が出る限り繰り返す。</li>
+<li>そして、＝が入力されたら変数aと変数bを演算して変数aに代入。変数aを表示して終了。</li>
+<li>再び＋が入力された際は、その前の演算子で変数aと変数bを演算子変数aに代入。</li>
+</ul>
+
+
+<p>これで繰り返し処理を行う事ができ、×÷の優先にも対応する事ができます！！<br/>
+後はこの演算子を入力する変数をどうするかを考えるだけです。</p>
+
+<p><strong><em>最終的に導き出したもの</em></strong></p>
+
+<ul>
+<li>１度目の演算子入力はop1に。</li>
+<li>２度目の演算子入力はop2に。</li>
+<li>① op2の演算子入力で＋－が入力された場合は、<br/>
+変数aと変数bをop1で演算し変数aに代入。op2をop1に代入し、その後op2に演算子を入力する。</li>
+<li>② op2の演算子入力で×÷が入力された場合は、<br/>
+変数bと変数cをop2で演算し変数bに代入。その後op2に演算子を入力する。</li>
+<li>＝が入力された場合、変数aと変数bをop1で演算して変数aに代入し、変数aを表示して終了。</li>
+<li>op2に演算子を入力した後、①、②のどちらかのパターンを繰り返す。</li>
+</ul>
+
+
+<h2>実装して検証する。</h2>
+
+<p>上記で考えたものを実装していきます。</p>
+
+<pre><code> #include &lt;cstring&gt;
+ #include &lt;cctype&gt;
+ #include &lt;iostream&gt;
+ using namespace std;
+ int main(){
+    double a,b,answer;
+    char op1,op2;
+    cout &lt;&lt;"演算開始\n加算：+ 減算：- 乗算：* 除算：/ 終了：=\n";
+
+    for ( cin &gt;&gt; a ; !cin ; cin &gt;&gt; a){
+        cin.clear();
+        cin.ignore();
+        cout &lt;&lt;"数値を入力して下さい";
+    }
+
+    answer = a;
+    for ( cin &gt;&gt; op1; !(op1 == '+'||op1 == '-'||op1 == '*'||op1 == '/'||op1 == '='); cin &gt;&gt; op1){
+        cin.clear();
+        cin.ignore();
+        cout &lt;&lt;"演算子をを入力して下さい";
+    }
+
+    if(op1 == '=') goto Ending;
+
+
+    for ( cin &gt;&gt; b ; !cin ; cin &gt;&gt; b){
+        cin.clear();
+        cin.ignore();
+        cout &lt;&lt;"数値を入力して下さい";
+    }
+
+    for ( cin &gt;&gt; op2; !(op2 == '+'||op2 == '-'||op2 == '*'||op2 == '/'||op2 == '='); cin &gt;&gt; op2){
+        cin.clear();
+        cin.ignore();
+        cout &lt;&lt;"演算子をを入力して下さい";
+    }
+
+
+    do{
+        if(op2 == '+' || op2 == '-'){
+            switch(op1){
+                case '+' : a = a + b; break;
+                case '-' : a = a - b; break;
+                case '*' : a = a * b; break;
+                case '/' : a = a / b; break;
+            }
+            op1 = op2;
+
+            for ( cin &gt;&gt; b ; !cin ; cin &gt;&gt; b){
+                cin.clear();
+                cin.ignore();
+                cout &lt;&lt;"数値を入力して下さい";
+            }
+        }else if(op2 =='*' || op2 == '/'){
+            double c;
+
+            for ( cin &gt;&gt; c ; !cin ; cin &gt;&gt; c){
+                cin.clear();
+                cin.ignore();
+                cout &lt;&lt;"数値を入力して下さい";
+            }
+            switch(op2){
+                case '*' : b = b * c; break;
+                case '/' : b = b / c; break;
+            }
+        }else break;
+        for ( cin &gt;&gt; op2; !(op2 == '+'||op2 == '-'||op2 == '*'||op2 == '/'||op2 == '='); cin &gt;&gt; op2){
+            cin.clear();
+            cin.ignore();
+            cout &lt;&lt;"演算子をを入力して下さい";
+        }
+    }while(op2 != '=');
+
+    switch(op1){
+        case '+' : answer = a + b; break;
+        case '-' : answer = a - b; break;
+        case '*' : answer = a * b; break;
+        case '/' : answer = a / b; break;
+    }
+    Ending :
+    cout &lt;&lt; answer &lt;&lt;"\nfin";
+ }
+</code></pre>
+
+<p>多々修正を行いました。<br/>
+実装してみて、ループの戻り先がハチャメチャだった事に気付いたからです。<br/>
+do-while文の部分は、実際作成したフローチャートではとても実装できるような処理の流れではありませんでした。<br/>
+しかし、コードのことを考えながらアルゴリズムを考える事ができればもう少し考えやすくなるかも、と思いました。以後試したいと思います。</p>
+
+<h3>まとめ</h3>
+
+<p>以上で今回の課題は終了ですが、中々苦戦したこの課題を通して大事な事を学びました。  <br/>
+私はこれまで無意識に、短絡的な考えのもと生活をしてきた事に気付きました。<br/>
+そしてそれがアルゴリズムを考えるだけでなくエンジニアとして生きていくうえで致命的であることを身をもって感じました。  <br/>
+求める結果から課題を導き、順序だてて解決していかなければならない。<br/>
+都度、論理的に考えられているか自分で確認しながら取り組んでいこうと思います。<br/>
+大事というか、今更かよ！的な話ですが、、<br/>
+こんな私の成長を、ブログから感じ取っていただけるよう今後も精進いたします。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[電卓アルゴリズムの作成]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/02/calculator-chart/"/>
+    <updated>2016-05-02T12:04:32+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/02/calculator-chart</id>
+    <content type="html"><![CDATA[<p>はじめましてk&#95;yoshidaです。
+電卓を作成する課題取り組みを行いました。</p>
+
+<!-- more -->
+
+
+<h1>課題</h1>
+
+<p><strong><em>四則演算を行えるアルゴリズムの作成</em></strong></p>
+
+<h2>四則演算アルゴリズムつくる前に</h2>
+
+<p>四則演算を行うのにルールをまず整理しました。</p>
+
+<p>&ndash; 掛け算・割り算が優先される</p>
+
+<p>&ndash; 足し算・引き算が掛け算・引き算より優先度が低い</p>
+
+<p>計算される優先度とまとめると</p>
+
+<p><strong>掛け算・引き算　>足し算・引き算</strong></p>
+
+<p>となります</p>
+
+<p>ざっくり思いついたままチャートを作成しました。
+掛け算と割り算は先に計算し,計算結果と演算子を含んだ配列を入れて,足し算引き算を後で計算するようにチャートを作りました。</p>
+
+<p><img src="/images/calulator1.png" alt="チャート図" /></p>
+
+<p>値取得関数<br/>
+<img src="/images/number1.png" alt="関数" /></p>
+
+<hr />
+
+<p>計算式を入力されたとき,配列に入れてから読み込みを行うようにしました。
+コードベースに落とて検証を行いました。読み込んだ文字列を一つづつ添字を動かして読みこむようにしていましたが,添字の指定がおかしくて思ったような動きではありませんでした。さらに読み込んだ配列の領域以外にアクセスしようとしてエラーが出てしまいました。
+読み込む際に呼んでいる関数内の処理が正しくなかったので失敗しました。</p>
+
+<p>値取得関数内にある添字を操作するチャートを修正して計算させようとしましたが,またしても配列をみるための添字の操作がおかしく計算が正常にできませんでした。　</p>
+
+<p>添字の操作でミスが多かったので修正を加えて再度チャートを作成しました。</p>
+
+<p><img src="/images/calulator2.png" alt="チャート図" /></p>
+
+<p><a href="/images/number2.png">値取得関数</a></p>
+
+<hr />
+
+<p>値取得関数を修正,計算するときのおかしかった挙動を修正してコードベースで再度検証を行い無事動くところまでできました。</p>
+
+<p>がしかし、<strong><em>アルゴリズムに無駄な処理がある事と（）を含んだ式でも動くように</em></strong> と指摘と新たな課題がでました。</p>
+
+<p>アルゴリズムに無駄な処理があるという事を指摘を受け,全体を見な押して見ることにしました。</p>
+
+<p>掛け算割り算をしている時に足し算引き算を行っていれば,ループ処理が減る事に気が付きました。
+そこで計算結果をいれる変数を作成して,無駄に使っていた配列を使わなくてよくなりました。<br/>
+（）があったときの処理にどのようにしたらよいかと壁にあたりました。</p>
+
+<p>()の中を先に計算してしまってまた計算に戻るというフローにしたかったので関数を呼び出すようにしました。
+最終的に以下のようなチャートになりました。</p>
+
+<p><img src="/images/calulator_frow.png" alt="チャート図1" /></p>
+
+<p><a href="/images/number_calulator.png">値取得関数</a></p>
+
+<p><a href="/images/brackets.png">（）があったときの関数</a></p>
+
+<h3>考察</h3>
+
+<p>数年ぶりにフローチャートを書くことになって忘れていることが多く,なかなかうまく書けなかったです。書き方アルゴリズムの考え方を思い出しつつ行っていました。はじめは思いついたままアルゴリズムを作っていて,動作できなかったり変な挙動をしていましたが,少しづつ良くなっていくのが見えてアルゴリズムを作っていくうえでこうなればよいと思えるようになりました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[検索アルゴリズム]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/26/search-algo-th/"/>
+    <updated>2016-04-26T16:34:05+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/26/search-algo-th</id>
+    <content type="html"><![CDATA[<h3>検索アルゴリズム</h3>
+
+<hr />
+
+<p>どうも、新人エンジニアのHondaです。<br/>
+今回は検索アルゴリズムの課題に取り組みました。<br/>
+前回の計算機アルゴリズムにつづいて、悩みました。<br/>
+以下記録です。</p>
+
+<h1>問題文</h1>
+
+<hr />
+
+<blockquote><p>以下のような１万個の数値（乱数）の配列があります。<br/>
+  １、３、６、１４、３４・・・・<br/>
+数値に規則性はなく、最大で１００万あります。<br/>
+ただ、昇順になっています。</p>
+
+<p>上記に対して目的の数値の検索をする処理をチャートで表してください<br/>
+目的の数値は１００あり、その結果を以下のように出力します。</p>
+
+<p>５は３番目<br/>
+２５はありませんでした<br/>
+４０００は４万番目<br/>
+・・・・</p>
+
+<p>要件：出来るだけ処理時間を短縮したいです。</p></blockquote>
+
+<!--more-->
+
+
+<h1>1万個って多くないですか？？？</h1>
+
+<hr />
+
+<p>この課題をみてまず思ったのは</p>
+
+<p><em>「一万個って多くないか？こんなんやってたら日が暮れるやろ。」</em></p>
+
+<p>ということです。</p>
+
+<p>効率よくやらないと、検索範囲多すぎて、何時間経っても終わらないジャン？？<br/>
+とはいえ、そこはコンピュータなので、一万個くらいならどんなに効率悪い検索法でも一瞬で終わってしまうという。コンピュータのすごさを実感しました。<br/>
+手作業（？）だと数時間ですよね。</p>
+
+<p>今回は３つの方法を考えました。<br/>
+あまりたらたらと書いていたらすごく長くなりそうなので、駆け足でいきます。</p>
+
+<h1>第１案</h1>
+
+<hr />
+
+<p>まず考えたのは、検索値１００個を検索元と同じく昇順に並べることです。</p>
+
+<p>こうすることで、検索値の一つ目と検索元の一つ目（これ以降、たとえば検索値の一つ目は検索値[1]と記述していくことにします。）は順序において近い位置に来るので検索がしやすくなると思ったからです。</p>
+
+<p>次に考えたのは、<em>「どうやって検索するか」</em>です。</p>
+
+<p>普通に1つずつ比較していくことにしました。</p>
+
+<p>つまり、検索値[１]と検索元[1],[2],[3],,,と比較していくということです。<br/>
+検索値も昇順に並んでいるので、検索値が見つかればその次の検索からは、見つけた値の次の検索元から検索します。</p>
+
+<p>この方法によると、すべての値を検索し終えるのに最大で１００００×１００回の比較をすることになります。<br/>
+これではちょっと非効率なので他の方法を考えることにしました。</p>
+
+<h1>第２案</h1>
+
+<hr />
+
+<p>次に考えたのはいわゆる<em>「２分探索」</em>ってやつです。</p>
+
+<p>検索値を検索元の真ん中の値（つまり検索元[5000]）と比較し、検索値のほうが大きければ、今度は検索元[5000]と検索元[10000]の間の真ん中の値と検索値の大小を比較する。逆に検索値のほうが小さければ、検索元[５０００]と検索元[0]の間の真ん中の値と検索値の大小を比較する。この一連の流れを検索値が見つかるか、検索元が空になるまで行う。</p>
+
+<p>というやり方です。</p>
+
+<p>今回も第一案と同じく、検索元に検索値と一致するものが見つかれば、次の検索はその次に大きい検索元から開始します。</p>
+
+<p>このやり方であれば比較回数は最大でも、１４×１００＝１４００回です。</p>
+
+<p>さっきよりも効率よくなりました。ただ、検索値を昇順に並べていることのメリットを生かしきれてません。</p>
+
+<p>そしてこの時点で気がついたのですが、そもそもこの検索では、検索値が検索元の中に発見される確率はきわめて低いということです。<br/>
+１から１００万までの数値から選んだ１万個の検索元から、ある検索値を探すので、検索値[x]が発見される<em>確率は１００分の１</em>です。平均では、１００個の値を検索しても、検索値は１個しか発見できないということです。</p>
+
+<p>このため、「検索値が発見されたら次回の検索からは、その検索値より大きい検索元だけ検索する」というのは、ほとんど起こらないことなので、この手順を入れたところであまり効率は上がらないということになります。</p>
+
+<p>このままでは検索値を昇順に並べたメリットがあまりないので、もっと効率のいいやり方を考えることにしました。</p>
+
+<h1>第３案</h1>
+
+<hr />
+
+<p>とにかく検索値が昇順に並んでいることを利用する方法を考えました。</p>
+
+<p>ここは結構悩みました。</p>
+
+<p>どうすれば処理を早くできるのだろう？</p>
+
+<p>結局のところ、検索範囲を絞ることが検索を早めることにつながるわけだから、なにかいい方法はないかなー<br/>
+と考えていたところ、ひとつ方法を思いつきました。</p>
+
+<p>以下の方法です。</p>
+
+<p>１・検索元を１００個おきに並べて（つまり検索元[100],[200],[300],[400]&hellip;と並べる）、検索値[n]と検索元[100n]の大小関係を比較する。<br/>
+２・それぞれの大小関係を＜＜＞＜＞＞＞＜＜＜&hellip;.といった形で記録する。<br/>
+３・この大小関係の＞＜の部分を検索範囲として２分検索を行う。<br/>
+（ここで左端は＞、右端は＜が存在するとして処理する。）</p>
+
+<p>やや複雑ではあるけれど、このやり方なら検索値を昇順にしていることを有効に活用できていると思います。</p>
+
+<p>本当は、２における大小関係の並びを何度もつくってどんどん検索範囲を狭めたほうが効率がいいのですが、あまりにも複雑な処理になりそうだったのであきらめました。</p>
+
+<h1>ベンチマークしてみる</h1>
+
+<hr />
+
+<p>いくつか方法は考えたけれど実際どれが一番早いやり方なのか分からないので、<br/>
+第２案と第３案のやり方を実装して、どちらの処理が早いかを比較してみました。</p>
+
+<p>コードは以下のとおりです。<br/>
+（かなり長くて処理もシンプルでないのですが、ご容赦ください）</p>
+
+<hr />
+
+<p>第２案
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import java.util.Arrays;
+</span><span class='line'>import java.text.NumberFormat;
+</span><span class='line'>import java.io.*;
+</span><span class='line'>public class Kensaku12{
+</span><span class='line'>  public static void main(String[] args){&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;//処理時間計測用
+</span><span class='line'>TimeMeasure tm = new TimeMeasure();
+</span><span class='line'>tm.start();
+</span><span class='line'>
+</span><span class='line'>//boxは検索元、numberは検索値、orderは検索値が何番目かを記録
+</span><span class='line'>int[] box = new int[10000];
+</span><span class='line'>int[] number = new int[100];
+</span><span class='line'>int[] order = new int[100];
+</span><span class='line'>int p = 0 ; int n = 0; int m=0;
+</span><span class='line'>
+</span><span class='line'>//100万までのランダムな数値を1万個box[]に代入
+</span><span class='line'>int[] box2 = new int [1000000];
+</span><span class='line'>for (int i = 0; i&lt;box2.length ; i++){
+</span><span class='line'>  box2[i] = i+1;
+</span><span class='line'>}
+</span><span class='line'>for (int i = 0 ; i&lt;10000; i++){
+</span><span class='line'>  int random;
+</span><span class='line'>  do{
+</span><span class='line'>    random = new java.util.Random().nextInt(1000000);
+</span><span class='line'>    box[i] = box2 [random];
+</span><span class='line'>  }while(box2[random] == 0);
+</span><span class='line'>  box2[random] = 0;
+</span><span class='line'>}
+</span><span class='line'>Arrays.sort(box);
+</span><span class='line'>
+</span><span class='line'>//numberの作成
+</span><span class='line'>int[] number2 = new int [10000000];
+</span><span class='line'>for (int i = 0; i&lt;number2.length ; i++){
+</span><span class='line'>  number2[i] = i+1;
+</span><span class='line'>}
+</span><span class='line'>for (int i = 0; i &lt; 100; i++){
+</span><span class='line'>  int random;
+</span><span class='line'>  do{
+</span><span class='line'>    random = new java.util.Random().nextInt(1000000);
+</span><span class='line'>    number[i] = number2 [random];
+</span><span class='line'>  }while(number2[random] == 0);
+</span><span class='line'>  number2[random] = 0;
+</span><span class='line'>}
+</span><span class='line'>Arrays.sort(number);
+</span><span class='line'>System.out.println("検索する数値は以下のとおり");
+</span><span class='line'>System.out.println(Arrays.toString(number));
+</span><span class='line'>
+</span><span class='line'>//二分探索
+</span><span class='line'>p=0;
+</span><span class='line'>while (p&lt;100){
+</span><span class='line'>  m=9999;
+</span><span class='line'>  while(!(number[p]==box[(n+m)/2] || number[p]==box[n] || number[p]==box[m] || m-n&lt;2)){
+</span><span class='line'>    if (number[p]&lt;box[(n+m)/2]){
+</span><span class='line'>      m=(n+m)/2;
+</span><span class='line'>    }else{
+</span><span class='line'>      n=(n+m)/2;
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  if(number[p]==box[(n+m)/2]){
+</span><span class='line'>    order[p]=(n+m)/2+1;
+</span><span class='line'>  }else if(number[p]==box[n]){
+</span><span class='line'>    order[p]=n+1;
+</span><span class='line'>  }else if(number[p]==box[m]){
+</span><span class='line'>    order[p]=m+1;
+</span><span class='line'>  }else {
+</span><span class='line'>    n=m;
+</span><span class='line'>  }
+</span><span class='line'>  p++;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//順序表示
+</span><span class='line'>for(int i=0; i&lt;100; i++){
+</span><span class='line'>  System.out.print(number[i]+"は");
+</span><span class='line'>  if(order[i]==0){
+</span><span class='line'>    System.out.println("ありませんでした");
+</span><span class='line'>  }else{
+</span><span class='line'>    System.out.println(order[i]+"番目");
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//処理時間計測
+</span><span class='line'>System.out.println("実行にかかった時間は");
+</span><span class='line'>tm.finish();
+</span><span class='line'>tm.printResult(); 
+</span><span class='line'>System.out.println("秒");
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  }
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;--- 
+</span><span class='line'>第３案
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;import java.util.Arrays;
+</span><span class='line'>import java.text.NumberFormat;
+</span><span class='line'>import java.io.*;
+</span><span class='line'>public class Kensaku13{
+</span><span class='line'>  public static void main(String[] args){&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;//処理時間計測用
+</span><span class='line'>TimeMeasure tm = new TimeMeasure();
+</span><span class='line'>tm.start();
+</span><span class='line'>
+</span><span class='line'>/*boxは検索元、numberは検索値、
+</span><span class='line'>orderは見つかった検索値の位置を記録、
+</span><span class='line'>relationは大小関係を記録
+</span><span class='line'>*/
+</span><span class='line'>int[] box = new int[10000];
+</span><span class='line'>int[] number = new int[100];
+</span><span class='line'>int[] order = new int[100];
+</span><span class='line'>int p = 0 ; int n = 0; int m=0;
+</span><span class='line'>String[] relation = new String[102];
+</span><span class='line'>relation[0]="&gt;" ; relation[101]="&lt;";
+</span><span class='line'>
+</span><span class='line'>//100万までのランダムな数値を1万個box[]に代入
+</span><span class='line'>int[] box2 = new int [1000000];
+</span><span class='line'>for (int i = 0; i&lt;box2.length ; i++){
+</span><span class='line'>  box2[i] = i+1;
+</span><span class='line'>}
+</span><span class='line'>for (int i = 0 ; i&lt;10000; i++){
+</span><span class='line'>  int random;
+</span><span class='line'>  do{
+</span><span class='line'>    random = new java.util.Random().nextInt(1000000);
+</span><span class='line'>    box[i] = box2 [random];
+</span><span class='line'>  }while(box2[random] == 0);
+</span><span class='line'>  box2[random] = 0;
+</span><span class='line'>}
+</span><span class='line'>Arrays.sort(box);
+</span><span class='line'>
+</span><span class='line'>//numberの作成
+</span><span class='line'>int[] number2 = new int [10000000];
+</span><span class='line'>for (int i = 0; i&lt;number2.length ; i++){
+</span><span class='line'>  number2[i] = i+1;
+</span><span class='line'>}
+</span><span class='line'>for (int i = 0; i &lt; 100; i++){
+</span><span class='line'>  int random;
+</span><span class='line'>  do{
+</span><span class='line'>    random = new java.util.Random().nextInt(1000000);
+</span><span class='line'>    number[i] = number2 [random];
+</span><span class='line'>  }while(number2[random] == 0);
+</span><span class='line'>  number2[random] = 0;
+</span><span class='line'>}
+</span><span class='line'>Arrays.sort(number);
+</span><span class='line'>System.out.println("検索する数値は以下のとおり");
+</span><span class='line'>System.out.println(Arrays.toString(number));
+</span><span class='line'>
+</span><span class='line'>//numberとboxの大小関係をrelationに代入していく
+</span><span class='line'>for(int i = 0; i&lt;100; i++){
+</span><span class='line'>  if(number[i]&gt;box[(i+1)*100-1]){
+</span><span class='line'>    relation[i+1]="&gt;";
+</span><span class='line'>  }else if(number[i]&lt;box[(i+1)*100-1]){
+</span><span class='line'>    relation[i+1]="&lt;";
+</span><span class='line'>  }else{
+</span><span class='line'>    relation[i+1]="=";
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/*二分探索
+</span><span class='line'>  まずn,mの値を大小関係に従って決める
+</span><span class='line'>  その後二分探索の処理*/
+</span><span class='line'>p=0;
+</span><span class='line'>while (p&lt;100){
+</span><span class='line'>  int q = p+1;
+</span><span class='line'>  if (relation[q].equals("&lt;")){
+</span><span class='line'>    m=q*100-1;
+</span><span class='line'>    while(relation[q-1].equals("&lt;")){
+</span><span class='line'>      q--;
+</span><span class='line'>    }
+</span><span class='line'>    n=(q-1)*100-1;
+</span><span class='line'>    if (q == 1){
+</span><span class='line'>      n=0;
+</span><span class='line'>    }
+</span><span class='line'>  }else if (relation[q].equals("&gt;")){
+</span><span class='line'>    n=q*100-1;
+</span><span class='line'>    while(relation[q+1].equals("&gt;")){
+</span><span class='line'>      q++;
+</span><span class='line'>    }
+</span><span class='line'>    m=(q+1)*100-1;
+</span><span class='line'>    if(q == 100){
+</span><span class='line'>      m=10000;
+</span><span class='line'>    }
+</span><span class='line'>  }else {
+</span><span class='line'>    n = m = q*100-1;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  //二分探索
+</span><span class='line'>  while(!(number[p]==box[(n+m)/2] || number[p]==box[n] || number[p]==box[m] || m-n&lt;2)){
+</span><span class='line'>    if (number[p]&lt;box[(n+m)/2]){
+</span><span class='line'>      m=(n+m)/2;
+</span><span class='line'>    }else{
+</span><span class='line'>      n=(n+m)/2;
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  if(number[p]==box[(n+m)/2]){
+</span><span class='line'>    order[p]=(n+m)/2+1;
+</span><span class='line'>  }else if(number[p]==box[n]){
+</span><span class='line'>    order[p]=n+1;
+</span><span class='line'>  }else if(number[p]==box[m]){
+</span><span class='line'>    order[p]=m+1;
+</span><span class='line'>  }else {
+</span><span class='line'>    n=m;
+</span><span class='line'>  }
+</span><span class='line'>  p++;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//順序表示
+</span><span class='line'>for(int i=0; i&lt;100; i++){
+</span><span class='line'>  System.out.print(number[i]+"は");
+</span><span class='line'>  if(order[i]==0){
+</span><span class='line'>    System.out.println("ありませんでした");
+</span><span class='line'>  }else{
+</span><span class='line'>    System.out.println(order[i]+"番目");
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>//処理時間を計測
+</span><span class='line'>System.out.println("実行にかかった時間は");
+</span><span class='line'>tm.finish();
+</span><span class='line'>tm.printResult();
+</span><span class='line'>System.out.println("秒");
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<h1>で、どっちが早いの？？</h1>
+
+<hr />
+
+<p>この２通りのプログラムの早さを比べたのですが、<em>あまり違いがありませんでした</em>。</p>
+
+<p>乱数で値を決めているので、完全に同じ値の組で比べたわけではないのですが、平均的にどちらも同じくらいの処理時間でした。</p>
+
+<p>やり方としては、大小関係の比較をつくって検索範囲を狭めたほうが効率がいい気がするのですが、その大小関係の比較の段階で処理が複雑になっているので、あまり処理の時間は変わらなかったということでしょうか？</p>
+
+<h1>まとめ</h1>
+
+<hr />
+
+<p>前回の計算機の課題にくらべて、今回は結構複雑なコードを書きました。特にループの処理が多く、値が正確に代入されるようにするのが大変でした。それから、検索値と検索元の数値を、乱数を発生させて代入するところでも結構苦労しました。重複せずに、ばらばらな値を各配列に代入するために、boxとbox2という配列を二つ用意し、ちょっと回り道してbox[]を準備しました。</p>
+
+<p>プログラムは融通が利かないということを実感しました。</p>
+
+<p>今回のアルゴリズムで大小関係を比較してから検索範囲をしぼるというやり方は、複雑だからコードにするの大変そうだなと思っていたのですが、実際コードにしてみると、何とか書けたので（とはいえやっぱり理解しにくい感じですが）、アルゴリズムでできることはプログラムにできるんだなということを学びました。</p>
+
+<p>とはいえ、複雑で理解しにくいので、シンプルでありつつ効率もいいコードを書けるように意識していきたいと思います。</p>
+
+<p>次回は、いよいよ「オブジェクト指向」に入っていきます。<br/>
+それではまた。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[課題報告　探索アルゴリズム【成功編】]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/25/algorithm-search-2/"/>
+    <updated>2016-04-25T11:25:36+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/25/algorithm-search-2</id>
+    <content type="html"><![CDATA[<p>どうも！仙台ファクトリーのkouです。
+前回の続きで探索アルゴリズムと格闘した報告です。</p>
+
+<p>それでは早速紹介していきます！</p>
+
+<h2>問題文(再掲）</h2>
+
+<blockquote><p>以下のような１万個の数値（乱数）の配列があります。
+１、３、６、１４、３４・・・・
+数値に規則性はなく、最大で１００万あります。
+ただ、昇順になっています。
+上記に対して目的の数値の検索をする処理をチャートで表してください
+目的の数値は１００あり、その結果を以下のように出力します。
+５は３番目
+２５はありませんでした
+４０００は４万番目</p>
+
+<p>要件：出来るだけ処理時間を短縮したいです。</p></blockquote>
+
+<!-- more -->
+
+
+<h2>あることに気がついた件</h2>
+
+<p>魔法の変数jikuがすごく気になっていた。<br/>
+どうして1回目はmidで比較して、2回目以降jikuで比較するのか。</p>
+
+<p>そのことを疑問に感じていたとき、<strong>軸の計算</strong>がおかしいのではないかと思った。</p>
+
+<p>そもそも軸、つまり探索元データの中央要素（の添え字）はどうやって決まっているのだろうか。これは</p>
+
+<h3>中央要素 = （最小の要素　＋　最大の要素）/ 2</h3>
+
+<p>で求められる。（前回のアルゴリズムを考えていたときに気がつかなかったのが恥ずかしい）</p>
+
+<p>これに気づかなかったため、魔法のjikuを用意して手間のかかる処理を書いてしまった。</p>
+
+<h2>どうしてそれに気がついたか</h2>
+
+<p>問題文を見たときに気付いたもう1点。<br/>
+<strong>目的の数値も並び替えれば探索が早くなる？（漠然と）</strong></p>
+
+<p>これについて考えていたとき、上司から次のアドバイスをいただいた。</p>
+
+<blockquote><p>目的の１００個の数値は「並んでいるかどうか書いていない」ので、これを昇順に並べ替えると目的の最大と最小がわかる</p></blockquote>
+
+<p>→目的の最小と最大が分かれば、探索元データはその範囲内に絞ることができる！<br/>
+漠然と感じていた疑問が解けたと同時に上記のことに気がついた。</p>
+
+<p>私が最初に考えたアルゴリズムでは、最初に『探索範囲の絞込み』を行っていなかったため、探索元データの最小と最大を「固定」にしたロジックになっている。（コードの中に最小と最大を表す変数が出てきてないのもそのためだ）つまり、最小要素と最大要素を見ていなかった。 <br/>
+探索元データの最小と最大が変われば中央の位置も変わる、ということに気がついたときもう少しシンプルなロジックにできるのではないかと思った。</p>
+
+<h2>ロジックを考え直す</h2>
+
+<p>ということで、ロジックを考え直した。</p>
+
+<h3>軸は最大要素と最小要素の和を半分にしたところに位置する</h3>
+
+<p>つまり、軸は自分で操作せずに最小要素と最大要素によって求めるということだ。（軸÷2はよくない）</p>
+
+<p>これを前提にして、考えたコードが下記である。</p>
+
+<pre><code class="java">
+while(array_m[min] &lt; array_m[max]) {
+    mid = (min + max) / 2;
+    if(array_n[i] == array_m[mid]) {
+        System.out.println(array_n[i] + "は" + mid + "番目");
+        break;
+    } else if(array_n[i] &lt; array_m[mid]) {
+        max = mid;
+        if(max - min == 1) {
+            if(array_n[i] == array_m[max]) {
+                System.out.println(array_n[i] + "は" + max + "番目");
+                break;
+            } else if(array_n[i] == array_m[min]) {
+                System.out.println(array_n[i] + "は" + min + "番目");
+                break;
+            }
+            System.out.println(array_n[i] + "は見つかりませんでした");
+            break;
+        }
+    } else if(array_n[i] &gt; array_m[mid]) {
+        min = mid;
+        if(max - min == 1) {
+            if(array_n[i] == array_m[max]) {
+                System.out.println(array_n[i] + "は" + max + "番目");
+                break;
+            } else if(array_n[i] == array_m[min]) {
+                System.out.println(array_n[i] + "は" + min + "番目");
+                break;
+            }
+            System.out.println(array_n[i] + "は見つかりませんでした");
+            break;
+        }
+    }
+}
+</code></pre>
+
+<p>＊前後のコードは割愛</p>
+
+<p>ざっくり説明すると、目的データと探索元データの中央要素を比較し、一致したならば探索完了なので処理を終える。不一致ならば、目的データが大きい場合、最小要素を軸とし、目的データが小さい場合、最大要素を軸としている。<br/>
+これによって、軸の値を直接弄らずに、最小要素と最大要素の値を変えるだけで軸を求めることが可能になる。</p>
+
+<p>あとは,最終的な絞込みを行う際の細かい処理を記述しているが、今回主張したいことは2分探索は</p>
+
+<h3>最小要素と最大要素の位置から軸を求め範囲を狭めていく</h3>
+
+<p>ということだ。これに気付くまでどれだけ時間が掛かったことか&hellip;とほほ。</p>
+
+<h2>最後に</h2>
+
+<p>いかがだったでしょうか？<br/>
+できるだけ自分の思考プロセスを丁寧に追って記事にしてみました！</p>
+
+<p>正直に告白すると、この課題の途中に2分探索について少し調べてます笑<br/>
+しかしながら、「これ以上分からない&hellip;」というところで何度も頭を捻って必死に答えを探そうとしたのは、良い経験になりました。</p>
+
+<p>そして、その過程をこの記事にアウトプットしているときにより頭の中がスッキリしていることに気付きました。<br/>
+どこで苦悩し、どこで気付いたのか。<br/>
+結果ではなく、過程を重視した記事を今後も書いていきたいと思います。</p>
+
+<p>今回は以上です！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[計算機のアルゴリズム]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/"/>
+    <updated>2016-04-22T15:07:43+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th</id>
+    <content type="html"><![CDATA[<p>どうも新人エンジニアのhondaです。<br/>
+4月から入社しました。プログラミングは未経験でしたが、何かをつくる仕事がしたいと思い、入社しました。もうすぐ入社してから１ヶ月が経つことになりますが、身に着けなければならないことが山積みで、日々勉強です。毎日新たな知識・技術を身につけていく日々ですが、これまで知らなかったコンピュータ・ソフトウェアの仕組みを学んだり、エンジニアが開発で使う最新のアプリケーションにふれられるのは、刺激的で、充実した日々です。<br/>
+さて、今回は私が新人研修の中で取り組んでいる課題を紹介したいと思います。それは<strong>電卓のアルゴリズムをつくる</strong>というものです。課題は以下のとおりです。</p>
+
+<h3>課題</h3>
+
+<hr />
+
+<!--more-->
+
+
+<p><blockquote><p>+－×÷の機能がある電卓のアルゴリズムを考えよ。またそのプログラムを作成せよ。<br/><br/>最初に数値、記号、数値、記号・・・と入力をうけとり、＝が入力された時点で計算結果を出力する。<br/><br/>数値の個数は制限なし。以下計算例。</p></p><p><p>４÷２＋４×３＝１４<br/><br/>２＋３＋４×７－１＝３２</p></p><p><p>※今回は最初に式すべて投入されることが前提とする。<br/><br/>「２＋３×４＝」ここまで１度に入力して計算する。<br/></p></blockquote></p>
+
+<h3>課題に取り組む</h3>
+
+<hr />
+
+<p>まじかー。×÷とかどうやったらええんやーーーー？？？？</p>
+
+<p>結局この課題の面倒な点は、</p>
+
+<p>1.×÷があるから、前から順に計算できないこと。<br/>
+2.入力される数値と記号の個数が定まらないこと。</p>
+
+<p>の２点だと思ったので、これを解決する方法を考えた。</p>
+
+<h3>１の解決策</h3>
+
+<hr />
+
+<p>ここで問題なのは計算の順序だ。×÷がある箇所は先に計算を済ませないといけない。<br/>
+以下のアルゴリズムを考えた。</p>
+
+<p>1.計算記号を前から順に調べる<br/>
+2.×÷記号があれば左右の数字を使って計算</p>
+
+<p>そして、＋－を計算するのだが、</p>
+
+<p>3.＋－記号があればその左右の&hellip;</p>
+
+<p>って、左右の数値は計算結果じゃないじゃん。これ計算できなくね？<br/>
+ここが悩んだところだった。<br/>
+×÷の計算結果ってどうすんの？計算結果を入れておく変数つくるのか&hellip;<br/>
+でもさらに変数つくっても、どんな感じで計算結果代入すればいいんだろう？</p>
+
+<p>ここで突然のひらめきが<br/>
+×÷の計算結果を左右の数値の右側に代入していくことで、×÷の計算結果を×÷が続いている部分の一番右側まで運んでくる。次に＋－の記号の左にある数値と、×÷の右端の数字に代入されている数値を足し引きすればいいのでは？（例えば、3+7×8÷2×5-4＝であれば、掛け算・割り算の計算結果は5の位置に代入される。次に＋－を計算するので、３と”５の位置にある数値”を足し合わせる）。</p>
+
+<p>めっちゃめんどくさいやん。でもこれ以外思いつかない&hellip;<br/>
+とりあえず2番目の問題に移ろうかな</p>
+
+<h3>2の解決策</h3>
+
+<hr />
+
+<p>入力の受け方は、結局は”＝”が入力されたら、入力をストップすればいいわけだからアルゴリズムはそんなに難しくなさそう。</p>
+
+<p>1.数値の入力を受け付ける<br/>
+2.記号の入力を受け付ける<br/>
+＊　"＝"が入力されるまで１と２を繰り返す</p>
+
+<p>意外と簡単だった。でもこれってどうやってコードにするんだろう。<br/>
+そもそも入力を受け付けるってどうやるの？？？<br/>
+フローチャート作成後はjavaで実装することになっていたのだが&hellip;<br/>
+プログラムってどうやって入力受け付けるんだ？？？<br/>
+と不安に思っていた。今考えると、そんな難しいことではないと分かるのだけど、<br/>
+当時の私にとっては、相当面倒なことになるのではと不安だった。</p>
+
+<h3>さあ実装するぞ</h3>
+
+<hr />
+
+<p>上記のアルゴリズムに基づいてフローチャートを作成し、それをjavaにて実装した。<br/>
+事前にjavaの書籍『スッキリ分かるjava入門』にてしっかり要点をおさえた。配列の使い方、入力の受け付け方、while文の使い方を覚えいよいよ実装に入った。<br/>
+そして出来上がったコードがこちら</p>
+
+<pre><code>public class Dentaku2 {
+  public static void main (String args []) {
+
+    //number[]は数値、symbolは計算記号を順に代入
+
+    int[] number;
+    number = new int [15];
+    String[] symbol;
+    symbol = new String [15];
+
+    //数値と記号の入力を受け付ける
+
+    int i = 0;
+    do{
+      System.out.println("数値を入力してください");
+      String numberString =
+            new java.util.Scanner(System.in).nextLine();
+      number[i] = Integer.parseInt(numberString);
+      System.out.println("計算記号を入力してください");
+      String symbol2 =
+            new java.util.Scanner(System.in).nextLine();
+      symbol[i] = symbol2;
+      i++;
+    }while (!(symbol[i-1].equals("=")));
+
+    //×÷の計算を行い、結果を右側に送る
+
+    i = 0;
+    while (!(symbol[i].equals("="))){
+      if (symbol[i].equals("*")){
+        number[i+1] = number[i]*number[i+1];
+      }else if (symbol[i].equals("/")){
+        number[i+1] = number[i]/number[i+1];
+      }
+      i++;
+    }
+
+    /*＋－を計算
+    まず＋－があるところを探す
+    ＋－を見つけたら、その右側で再び＋－があるところをさがす
+    再び＋－を見つけたら、その左側の数値（ここに×÷の計算結果が入っている）と足し引きする
+    */
+
+    i = 0;
+    while(!(symbol[i].equals("="))){
+      if(symbol[i].equals("+") || symbol[i].equals("-")){
+        int m = i+1;
+        while(!(symbol[m].equals("+") || symbol[m].equals("-")
+                                       || symbol[m].equals("="))){
+          m++;
+        }
+        if (symbol[i].equals("+")){
+          number[m] = number[i] + number[m];
+        }else{
+          number[m] = number[i] - number[m];
+        }
+      }
+      i++;
+    }
+
+    //計算終了、結果を出力
+
+    System.out.println(number[i]);
+  }
+</code></pre>
+
+<p>めちゃ複雑になった。特に×÷の計算後の＋－のところ。<br/>
+もっとシンプルで簡単な方法あるのかなと思いつつも、他の方法を思いつかない。<br/>
+そして、すごく実装に時間がかかった。１０時間くらいはかかったと思う。
+それでも、基本的なコードだけで意外と電卓くらいなら作れちゃうんだなぁ、と驚いた。</p>
+
+<h3>まとめ</h3>
+
+<hr />
+
+<p>アルゴリズムって難しいな。これが思いつく限りベストな方法なんだけど、本当にベストなアルゴリズムかは確かめられないという&hellip; <br/>
+いろいろ悩みながらもアルゴリズムをひねり出すのは結構頭をつかうし、時間もかかった。プログラムの書き方も試行錯誤しながらなんとか動くものを書いた。<br/>
+総じて時間のかかる課題だったけど、結局自分の頭で（天下り的にではなく）何かをひねり出すことがいい経験になっていると感じる。<br/>
+一つ一つの課題に数日がかりで時間をかけていて、プログラミングスキル自体は急速に身についているわけではないのだけど、それでも自分の力で考え抜いて答えを出す力はついている気がする。<br/>
+エンジニアの仕事がどんなものかはまだまだ分からないのだけど、一つ思うのは、ソフトウェア開発の世界は日々技術が進歩していくので、当然エンジニアもそれについていかなければならないわけで、最先端についていく（あるいはそれを生み出す）には自分の頭で考えて、既存のものに頼らずに問題を解決する力が必要になるのだろう。そうだとすれば、今やっている課題は、エンジニアとしてのスキルそのものだけでなく、その基礎となる姿勢を身に着ける助けになっていのでは？？？（というポジティブシンキング）。</p>
+
+<p>今もまた新たな課題を与えられ、結構四苦八苦しながら取り組んでいるのだけど、考え抜く姿勢を持って取り組んでいきたい。</p>
+]]></content>
+  </entry>
+  
+</feed>

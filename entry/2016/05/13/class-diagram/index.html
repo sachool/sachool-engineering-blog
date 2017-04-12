@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>【課題】ビデオカメラのクラス図を考える - Sachool Engineering Blog</title>
+  <meta name="author" content="Sackle">
+
+  
+  <meta name="description" content="エンジニアの学習の記録です。主に新入社員が更新していきます。">
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://sachool.jp/blog/entry/2016/05/13/class-diagram/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">var $220 = $.noConflict(true);</script>  
+  <script src="/blog/javascripts/menuToggle.js"></script>
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+
+  <link href="/blog/atom.xml" rel="alternate" title="Sachool Engineering Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" type="text/css">
+
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74244767-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">Sachool Engineering Blog</a></h1>
+  
+    <h2>プログラミング学習の記録</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<div id="nav-box">
+  <div id="toggle"><a href="#">Menu</a></div>
+  <ul class="main-navigation">
+    <li><a href="https://sachool.jp/" target="_blank">Sachool</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+  </ul>
+</div>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">【課題】ビデオカメラのクラス図を考える</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+
+<time class='entry-date updated' datetime='2016-05-13T09:25:57+09:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:25 am</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>仙台ファクトリーのkish(@31_kish)です。</p>
+
+<p>ビデオカメラのクラス図と聞いたとき、機能が多く、膨大なクラスの数になるだろうと思った。<br/>
+IDEなどでクラスを作った場合、処理の流れがテストできるが<br/>
+図だけで作ると処理の流れが見えないので、メソッドやプロパティを考えるのが難しい。</p>
+
+<p>クラス図を元にプログラミングを行うと勘違いをしていたが<br/>
+クラス図とはクラス間の関係を表現するものであり、細かいメソッドの処理などは考慮しなくても良いらしい。</p>
+
+<p>クラス図を作るまでの過程を以下にまとめた。</p>
+
+<!--more-->
+
+
+<h2>機能を洗い出す</h2>
+
+<p>実際にビデオカメラを触りながら大まかに機能を洗い出した。<br/>
+あれ、意外と少ない。</p>
+
+<ul>
+<li>各種ボタンの動き</li>
+<li>液晶画面に表示される内容</li>
+<li>動画・静止画の撮影</li>
+<li>動画・静止画のプレビュー</li>
+</ul>
+
+
+<h2>機能をMVCで考える</h2>
+
+<p>次に行ったことは、MVCで表現すること。</p>
+
+<h4>コントローラー</h4>
+
+<ul>
+<li>電源の管理（入・切）</li>
+<li>ACアダプタの状態を監視</li>
+<li>録画状態のビューを呼ぶ</li>
+<li>ビューの入力を監視</li>
+<li>録画ボタンの状態を監視（開始・停止）</li>
+<li>ズームボタンの状態を監視（拡大・縮小）</li>
+<li>撮影モードの状態を監視（動画・静止画）</li>
+<li>画面の状態を監視、状態によるビューを呼ぶ（録画・再生・メニュー）</li>
+<li>端子の状態を監視（接続済み・未接続）</li>
+<li>モデルに状態を通知</li>
+</ul>
+
+
+<h4>ビュー</h4>
+
+<ul>
+<li>時計を表示</li>
+<li>録画時間を表示</li>
+<li>バッテリーの表示</li>
+<li>モードを表示</li>
+<li>メニューを表示</li>
+<li>ズームボタンの表示</li>
+<li>傾きを表示</li>
+</ul>
+
+
+<h4>モデル</h4>
+
+<ul>
+<li>コントローラーから通知を受け取る</li>
+<li>傾きを補正</li>
+<li>電源を切る</li>
+<li>電源を入れる</li>
+<li>ACアダプタの状態を受け取り、バッテリ、外部電源を変更</li>
+<li>録画を開始</li>
+<li>録画を停止</li>
+<li>録画した動画を保存する</li>
+<li>ズームボタンの状態を受け取り、レンズの状態を変更（拡大・縮小）</li>
+<li>撮影モードの状態を受け取り、撮影モードの変更(動画・静止画）</li>
+<li>端子の状態を受け取り、機器への接続を開始・停止</li>
+</ul>
+
+
+<h2>クラス図をつくった</h2>
+
+<p><a href="/blog/images/2016-05-10-video-camera.jpg"><img src="/blog/images/2016-05-10-video-camera.jpg" alt="クラス図" /></a></p>
+
+<p>はじめはViewがModelのインスタンスを持っていて複雑になっていたが<br/>
+ご指摘をいただき、シンプルにまとめることができた。</p>
+</div>
+
+
+  <footer>
+
+    <p class="meta">
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/entry/categories/work/'>work</a>, <a class='category' href='/blog/entry/categories/kurasu-zu/'>クラス図</a>
+  
+</span>
+
+
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kish</span></span>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+    <a href="http://b.hatena.ne.jp/entry/https://sachool.jp/blog/entry/2016/05/13/class-diagram/" class="hatena-bookmark-button" data-hatena-bookmark-title="Sachool Engineering Blog" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://sachool.jp/blog/entry/2016/05/13/class-diagram/" data-via="" data-counturl="https://sachool.jp/blog/entry/2016/05/13/class-diagram/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/entry/2016/05/11/nescafe-class/" title="Previous Post: ネスカフェバリスタのクラス図を作ってみた">&laquo; ネスカフェバリスタのクラス図を作ってみた</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/entry/2016/05/30/test/" title="Next Post: 初業務・システムテストやりました">初業務・システムテストやりました &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/two-month-later/">入社から二ヶ月が経って</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/">【Octopress】記事の投稿手順</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/burogu/">ブログ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/lp-research/">ランディングページの制作（競合調査・研究）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/new-first-project/">先輩に頼り完成出来た初プロジェクト</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/entry/categories/amp/'>amp (1)</a></li><li><a href='/blog/entry/categories/centos/'>centos (1)</a></li><li><a href='/blog/entry/categories/design/'>design (2)</a></li><li><a href='/blog/entry/categories/google/'>google (1)</a></li><li><a href='/blog/entry/categories/linux/'>linux (3)</a></li><li><a href='/blog/entry/categories/lp/'>lp (2)</a></li><li><a href='/blog/entry/categories/octopress/'>octopress (3)</a></li><li><a href='/blog/entry/categories/other/'>other (1)</a></li><li><a href='/blog/entry/categories/vagrant/'>vagrant (2)</a></li><li><a href='/blog/entry/categories/web/'>web (2)</a></li><li><a href='/blog/entry/categories/wordpress/'>wordpress (1)</a></li><li><a href='/blog/entry/categories/work/'>work (11)</a></li><li><a href='/blog/entry/categories/arugorizumu/'>アルゴリズム (6)</a></li><li><a href='/blog/entry/categories/obujekuto-shiko/'>オブジェクト指向 (1)</a></li><li><a href='/blog/entry/categories/kurasu-zu/'>クラス図 (2)</a></li><li><a href='/blog/entry/categories/purojekuto/'>プロジェクト (1)</a></li><li><a href='/blog/entry/categories/gengo/'>言語 (1)</a></li><li><a href='/blog/entry/categories/dentaku/'>電卓 (2)</a></li></ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Sackle -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  - <span class="credit">Theme by <a href="http://www.gehaxelt.in">Gehaxelt</a></span>
+  <span class="credit">and <a href="http://www.it-solutions-neef.de">IT Solutions Neef</a></span>
+</p>
+
+</footer>
+  
+
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+/*
+        var disqus_identifier = 'https://sachool.jp/blog/entry/2016/05/13/class-diagram/';
+        var disqus_url = 'https://sachool.jp/blog/entry/2016/05/13/class-diagram/';
+        var disqus_script = 'embed.js';
+*/
+
+var disqus_config = function () {
+this.page.url = 'https://sachool.jp/blog/entry/2016/05/13/class-diagram/'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = `https://sachool.jp/blog/entry/2016/05/13/class-diagram/`; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//sachool-blog.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//sachool-blog.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

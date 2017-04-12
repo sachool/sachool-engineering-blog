@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>【CentOS7】Octopressでブログ作成 - Sachool Engineering Blog</title>
+  <meta name="author" content="Sackle">
+
+  
+  <meta name="description" content="エンジニアの学習の記録です。主に新入社員が更新していきます。">
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://sachool.jp/blog/entry/2016/04/21/create-octopress/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">var $220 = $.noConflict(true);</script>  
+  <script src="/blog/javascripts/menuToggle.js"></script>
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+
+  <link href="/blog/atom.xml" rel="alternate" title="Sachool Engineering Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" type="text/css">
+
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74244767-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">Sachool Engineering Blog</a></h1>
+  
+    <h2>プログラミング学習の記録</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<div id="nav-box">
+  <div id="toggle"><a href="#">Menu</a></div>
+  <ul class="main-navigation">
+    <li><a href="https://sachool.jp/" target="_blank">Sachool</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+  </ul>
+</div>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">【CentOS7】Octopressでブログ作成</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+
+<time class='entry-date updated' datetime='2016-04-21T17:17:07+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>5:17 pm</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>こんにちは、仙台ファクトリーのkish(@31_kish)です。</p>
+
+<p>CentOS7をインストールした直後から<br/>
+Octopressをプレビューできるまでの手順を紹介します。</p>
+
+<p>私の環境では、VirtualBoxでCentOSの仮想環境を作成して行っています。</p>
+
+<p>バッククオート(｀)の中で＃を使うと、ページが生成できないようです。<br/>
+投稿の際はご注意ください。</p>
+
+<!-- more -->
+
+
+<h2>パッケージをアップデートして再起動する</h2>
+
+<p><strong>rootユーザーで行います。</strong>
+まずは念のためアップデートしておきます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ yum -y update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>終わったら再起動</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ reboot</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>net-tools、vimをインストールする</h2>
+
+<p>最小構成のCentOS7では <code>ifconfig</code> , <code>vim</code> が使えないのでインストールします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ yum -y install net-tools vim</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>一般ユーザーを作成する</h2>
+
+<p>ここではadminというユーザーを作成します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ useradd admin
+</span><span class='line'>＃ passwd admin
+</span><span class='line'>New password: 
+</span><span class='line'>Retype new password: 
+</span><span class='line'>passwd: all authentication tokens updated successfully</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>rootにログインできるユーザーを管理者のみにする</h2>
+
+<p>adminをwheelグループに追加します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ usermod -G wheel admin
+</span><span class='line'>＃ vim /etc/pam.d/su</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>auth required pam_wheel.so use_id &lt;- コメントを解除する</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SELinuxを無効化する</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ vim /etc/sysconfig/selinux</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELINUX=disabled &lt;- このように変更する</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SSHの設定をする</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ vim /etc/ssh/sshd_config</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Port 22 &lt;- 接続を受け付けるポート
+</span><span class='line'>
+</span><span class='line'>PermitedRootLogin no &lt;- rootログインを禁止
+</span><span class='line'>
+</span><span class='line'>PasswordAuthentication yes &lt;- パスワード認証を許可する</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>sshdを再起動する</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ systemctl restart sshd</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><strong>ここまでroot</strong></p>
+
+<p><strong>ここからはadminで行う</strong></p>
+
+<h2>gitをインストールする</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install git</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>必要なパッケージをインストールする</h2>
+
+<p>rubyのインストールに必要なパッケージです。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo yum -y install gcc-c++ glibc-headers openssl-devel readline libyaml-devel readline-devel zlib zlib-devel bzip2</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>rbenvをインストールする</h2>
+
+<p><a href="http://www.task-notes.com/entry/20150624/1435114800">CentOSにrbenvをインストールする方法</a><br/>
+参考にしました。</p>
+
+<p>環境変数にパスを通すため、一旦rootで作業をします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ su -
+</span><span class='line'>パスワード</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ git clone https://github.com/sstephenson/rbenv.git /usr/local/src/rbenv
+</span><span class='line'>＃ echo 'export RBENV_ROOT="/usr/local/src/rbenv"' &gt;&gt; /etc/profile.d/rbenv.sh
+</span><span class='line'>＃ echo 'export PATH="${RBENV_ROOT}/bin:${PATH}"' &gt;&gt; /etc/profile.d/rbenv.sh
+</span><span class='line'>＃ echo 'eval "$(rbenv init -)"' &gt;&gt; /etc/profile.d/rbenv.sh
+</span><span class='line'>＃ source /etc/profile.d/rbenv.sh
+</span><span class='line'>＃ rbenv -v
+</span><span class='line'>rbenv 1.0.0-19-g29b4da7</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>ruby-buildをインストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ git clone https://github.com/sstephenson/ruby-build.git /usr/local/src/rbenv/plugins/ruby-build</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>rubyをインストール</h2>
+
+<p>インストールするバージョンを確認します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ rbenv install --list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>今回は2.3.0をインストールします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>＃ rbenv install 2.3.0
+</span><span class='line'>＃ rbenv global 2.3.0
+</span><span class='line'>＃ ruby -v
+</span><span class='line'>ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-linux]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>インストールが完了したら、rootからログアウトします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ exit</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>OctopressをGithubからcloneする</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir ocopress
+</span><span class='line'>$ git clone git://github.com/imathis/octopress.git octopress/
+</span><span class='line'>$ cd octopress</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>bundlerをインストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo gem install bundler</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>gemコマンドが見つかりません</code><br/>
+というメッセージが表示されたらサーバーにログインし直してください。<br/>
+それでも同じメッセージが表示されたらrootユーザーに切り替えて実行してください。</p>
+
+<p><code>javascript runtime</code>が見つからないというエラーが発生するため<br/>
+<code>Gemfile</code>に追記してインストールします。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vim Gemfile</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'therubyracer'
+</span><span class='line'>gem 'execjs'</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle --path vendor/bundle</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Octopressのデフォルトテーマをインストール</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake install
+</span><span class='line'> Copying classic theme into ./source and ./sass
+</span><span class='line'>mkdir -p source
+</span><span class='line'>cp -r .themes/classic/source/. source
+</span><span class='line'>mkdir -p sass
+</span><span class='line'>cp -r .themes/classic/sass/. sass
+</span><span class='line'>mkdir -p source/_posts
+</span><span class='line'>mkdir -p public</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>ページを生成</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake generate</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Gemfileに追記する</h2>
+
+<p>プレビューに<code>thin</code>を利用するためファイルを修正していきます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vim Gemfile</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'thin', '~&gt;1.5.0'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>追記したらインストール</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle --path vendor/bundle</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Rakefileを修正</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vim Rakefile</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-   puts "Starting to watch source with Jekyll and Compass. Starting Rack on port #{server_port}"
+</span><span class='line'>
+</span><span class='line'>+   puts "Starting to watch source with Jekyll and Compass. Starting Thin on port #{server_port}"
+</span><span class='line'>---
+</span><span class='line'>
+</span><span class='line'>-   rackupPid = Process.spawn("rackup --port #{server_port}")
+</span><span class='line'>
+</span><span class='line'>+   thinPid = Process.spawn("thin start --port #{server_port}")
+</span><span class='line'>---
+</span><span class='line'>
+</span><span class='line'>-     [jekyllPid, compassPid, rackupPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+</span><span class='line'>
+</span><span class='line'>+     [jekyllPid, compassPid, thinPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+</span><span class='line'>---
+</span><span class='line'>
+</span><span class='line'>-   [jekyllPid, compassPid, rackupPid].each { |pid| Process.wait(pid) }
+</span><span class='line'>
+</span><span class='line'>+   [jekyllPid, compassPid, thinPid].each { |pid| Process.wait(pid) }
+</span><span class='line'>---</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>-</code>の行を<code>+</code>のように書き換えてください。</p>
+
+<p>修正が完了したらプレビューしてみます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake preview
+</span><span class='line'>Starting to watch source with Jekyll and Compass. Starting Thin on port 4000
+</span><span class='line'>&gt;&gt; Using rack adapter
+</span><span class='line'>&gt;&gt; Thin web server (v1.5.1 codename Straight Razor)
+</span><span class='line'>&gt;&gt; Maximum connections set to 1024
+</span><span class='line'>&gt;&gt; Listening on 0.0.0.0:4000, CTRL+C to stop
+</span><span class='line'>&gt;&gt;&gt; Compass is watching for changes. Press Ctrl-C to Stop.
+</span><span class='line'>Configuration file: /home/admin/octopress/_config.yml
+</span><span class='line'>            Source: source
+</span><span class='line'>       Destination: public
+</span><span class='line'>      Generating...
+</span><span class='line'>                    done.
+</span><span class='line'> Auto-regeneration: enabled for 'source'
+</span><span class='line'>    write public/stylesheets/screen.css</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ブラウザでサーバーのIPアドレスのポート4000にアクセスすると、ブログが表示されます。<br/>
+VirtualBoxを利用している方はポートフォワーディングなどの設定をして<br/>
+ゲストOSとホストOSが通信できる状態にしてください。</p>
+
+<p>プレビューを起動している状態だと、記事の編集がリアルタイムで確認することができます。</p>
+
+<p>ブログのタイトルなどの設定は<code>_config.yml</code>を編集してください。</p>
+
+<hr />
+
+<p>参考URL<br/>
+<a href="http://blog.glidenote.com/blog/2012/10/31/thin-octopress/">OctopressのRake Previewにthinを利用してプレビューを高速化する</a><br/>
+<a href="http://blog.shiroyama.us/blog/2014/02/26/octopress/">エンジニアのブログは Octopress が最適</a><br/>
+<a href="http://www.mk-mode.com/octopress/2012/12/10/octopress-construction-of-environment/">Octopress - 環境構築！</a></p>
+</div>
+
+
+  <footer>
+
+    <p class="meta">
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/entry/categories/centos/'>centos</a>, <a class='category' href='/blog/entry/categories/linux/'>linux</a>, <a class='category' href='/blog/entry/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">kish</span></span>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+    <a href="http://b.hatena.ne.jp/entry/https://sachool.jp/blog/entry/2016/04/21/create-octopress/" class="hatena-bookmark-button" data-hatena-bookmark-title="Sachool Engineering Blog" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://sachool.jp/blog/entry/2016/04/21/create-octopress/" data-via="" data-counturl="https://sachool.jp/blog/entry/2016/04/21/create-octopress/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/entry/2016/04/14/create-blog-env/" title="Previous Post: 【Vagrant】ブログの投稿環境をつくる">&laquo; 【Vagrant】ブログの投稿環境をつくる</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/entry/2016/04/22/algorithm-search-1/" title="Next Post: 課題報告　探索アルゴリズム【失敗編】">課題報告　探索アルゴリズム【失敗編】 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/two-month-later/">入社から二ヶ月が経って</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/">【Octopress】記事の投稿手順</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/burogu/">ブログ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/lp-research/">ランディングページの制作（競合調査・研究）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/new-first-project/">先輩に頼り完成出来た初プロジェクト</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/entry/categories/amp/'>amp (1)</a></li><li><a href='/blog/entry/categories/centos/'>centos (1)</a></li><li><a href='/blog/entry/categories/design/'>design (2)</a></li><li><a href='/blog/entry/categories/google/'>google (1)</a></li><li><a href='/blog/entry/categories/linux/'>linux (3)</a></li><li><a href='/blog/entry/categories/lp/'>lp (2)</a></li><li><a href='/blog/entry/categories/octopress/'>octopress (3)</a></li><li><a href='/blog/entry/categories/other/'>other (1)</a></li><li><a href='/blog/entry/categories/vagrant/'>vagrant (2)</a></li><li><a href='/blog/entry/categories/web/'>web (2)</a></li><li><a href='/blog/entry/categories/wordpress/'>wordpress (1)</a></li><li><a href='/blog/entry/categories/work/'>work (11)</a></li><li><a href='/blog/entry/categories/arugorizumu/'>アルゴリズム (6)</a></li><li><a href='/blog/entry/categories/obujekuto-shiko/'>オブジェクト指向 (1)</a></li><li><a href='/blog/entry/categories/kurasu-zu/'>クラス図 (2)</a></li><li><a href='/blog/entry/categories/purojekuto/'>プロジェクト (1)</a></li><li><a href='/blog/entry/categories/gengo/'>言語 (1)</a></li><li><a href='/blog/entry/categories/dentaku/'>電卓 (2)</a></li></ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Sackle -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  - <span class="credit">Theme by <a href="http://www.gehaxelt.in">Gehaxelt</a></span>
+  <span class="credit">and <a href="http://www.it-solutions-neef.de">IT Solutions Neef</a></span>
+</p>
+
+</footer>
+  
+
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+/*
+        var disqus_identifier = 'https://sachool.jp/blog/entry/2016/04/21/create-octopress/';
+        var disqus_url = 'https://sachool.jp/blog/entry/2016/04/21/create-octopress/';
+        var disqus_script = 'embed.js';
+*/
+
+var disqus_config = function () {
+this.page.url = 'https://sachool.jp/blog/entry/2016/04/21/create-octopress/'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = `https://sachool.jp/blog/entry/2016/04/21/create-octopress/`; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//sachool-blog.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//sachool-blog.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

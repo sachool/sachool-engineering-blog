@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>計算機のアルゴリズム - Sachool Engineering Blog</title>
+  <meta name="author" content="Sackle">
+
+  
+  <meta name="description" content="エンジニアの学習の記録です。主に新入社員が更新していきます。">
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">var $220 = $.noConflict(true);</script>  
+  <script src="/blog/javascripts/menuToggle.js"></script>
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+
+  <link href="/blog/atom.xml" rel="alternate" title="Sachool Engineering Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" type="text/css">
+
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74244767-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">Sachool Engineering Blog</a></h1>
+  
+    <h2>プログラミング学習の記録</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<div id="nav-box">
+  <div id="toggle"><a href="#">Menu</a></div>
+  <ul class="main-navigation">
+    <li><a href="https://sachool.jp/" target="_blank">Sachool</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+  </ul>
+</div>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">計算機のアルゴリズム</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+
+<time class='entry-date updated' datetime='2016-04-22T15:07:43+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:07 pm</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>どうも新人エンジニアのhondaです。<br/>
+4月から入社しました。プログラミングは未経験でしたが、何かをつくる仕事がしたいと思い、入社しました。もうすぐ入社してから１ヶ月が経つことになりますが、身に着けなければならないことが山積みで、日々勉強です。毎日新たな知識・技術を身につけていく日々ですが、これまで知らなかったコンピュータ・ソフトウェアの仕組みを学んだり、エンジニアが開発で使う最新のアプリケーションにふれられるのは、刺激的で、充実した日々です。<br/>
+さて、今回は私が新人研修の中で取り組んでいる課題を紹介したいと思います。それは<strong>電卓のアルゴリズムをつくる</strong>というものです。課題は以下のとおりです。</p>
+
+<h3>課題</h3>
+
+<hr />
+
+<!--more-->
+
+
+
+
+<blockquote><p>+－×÷の機能がある電卓のアルゴリズムを考えよ。またそのプログラムを作成せよ。  <br/>最初に数値、記号、数値、記号・・・と入力をうけとり、＝が入力された時点で計算結果を出力する。  <br/>数値の個数は制限なし。以下計算例。</p><p>４÷２＋４×３＝１４  <br/>２＋３＋４×７－１＝３２  </p><p>※今回は最初に式すべて投入されることが前提とする。  <br/>「２＋３×４＝」ここまで１度に入力して計算する。</p></blockquote>
+
+
+<h3>課題に取り組む</h3>
+
+<hr />
+
+<p>まじかー。×÷とかどうやったらええんやーーーー？？？？</p>
+
+<p>結局この課題の面倒な点は、</p>
+
+<p>1.×÷があるから、前から順に計算できないこと。<br/>
+2.入力される数値と記号の個数が定まらないこと。</p>
+
+<p>の２点だと思ったので、これを解決する方法を考えた。</p>
+
+<h3>１の解決策</h3>
+
+<hr />
+
+<p>ここで問題なのは計算の順序だ。×÷がある箇所は先に計算を済ませないといけない。<br/>
+以下のアルゴリズムを考えた。</p>
+
+<p>1.計算記号を前から順に調べる<br/>
+2.×÷記号があれば左右の数字を使って計算</p>
+
+<p>そして、＋－を計算するのだが、</p>
+
+<p>3.＋－記号があればその左右の&hellip;</p>
+
+<p>って、左右の数値は計算結果じゃないじゃん。これ計算できなくね？<br/>
+ここが悩んだところだった。<br/>
+×÷の計算結果ってどうすんの？計算結果を入れておく変数つくるのか&hellip;<br/>
+でもさらに変数つくっても、どんな感じで計算結果代入すればいいんだろう？</p>
+
+<p>ここで突然のひらめきが<br/>
+×÷の計算結果を左右の数値の右側に代入していくことで、×÷の計算結果を×÷が続いている部分の一番右側まで運んでくる。次に＋－の記号の左にある数値と、×÷の右端の数字に代入されている数値を足し引きすればいいのでは？（例えば、3+7×8÷2×5-4＝であれば、掛け算・割り算の計算結果は5の位置に代入される。次に＋－を計算するので、３と”５の位置にある数値”を足し合わせる）。</p>
+
+<p>めっちゃめんどくさいやん。でもこれ以外思いつかない&hellip;<br/>
+とりあえず2番目の問題に移ろうかな</p>
+
+<h3>2の解決策</h3>
+
+<hr />
+
+<p>入力の受け方は、結局は”＝”が入力されたら、入力をストップすればいいわけだからアルゴリズムはそんなに難しくなさそう。</p>
+
+<p>1.数値の入力を受け付ける<br/>
+2.記号の入力を受け付ける<br/>
+＊　"＝"が入力されるまで１と２を繰り返す</p>
+
+<p>意外と簡単だった。でもこれってどうやってコードにするんだろう。<br/>
+そもそも入力を受け付けるってどうやるの？？？<br/>
+フローチャート作成後はjavaで実装することになっていたのだが&hellip;<br/>
+プログラムってどうやって入力受け付けるんだ？？？<br/>
+と不安に思っていた。今考えると、そんな難しいことではないと分かるのだけど、<br/>
+当時の私にとっては、相当面倒なことになるのではと不安だった。</p>
+
+<h3>さあ実装するぞ</h3>
+
+<hr />
+
+<p>上記のアルゴリズムに基づいてフローチャートを作成し、それをjavaにて実装した。<br/>
+事前にjavaの書籍『スッキリ分かるjava入門』にてしっかり要点をおさえた。配列の使い方、入力の受け付け方、while文の使い方を覚えいよいよ実装に入った。<br/>
+そして出来上がったコードがこちら</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class Dentaku2 {
+</span><span class='line'>  public static void main (String args []) {
+</span><span class='line'>
+</span><span class='line'>    //number[]は数値、symbolは計算記号を順に代入
+</span><span class='line'>
+</span><span class='line'>    int[] number;
+</span><span class='line'>    number = new int [15];
+</span><span class='line'>    String[] symbol;
+</span><span class='line'>    symbol = new String [15];
+</span><span class='line'>
+</span><span class='line'>    //数値と記号の入力を受け付ける
+</span><span class='line'>
+</span><span class='line'>    int i = 0;
+</span><span class='line'>    do{
+</span><span class='line'>      System.out.println("数値を入力してください");
+</span><span class='line'>      String numberString =
+</span><span class='line'>            new java.util.Scanner(System.in).nextLine();
+</span><span class='line'>      number[i] = Integer.parseInt(numberString);
+</span><span class='line'>      System.out.println("計算記号を入力してください");
+</span><span class='line'>      String symbol2 =
+</span><span class='line'>            new java.util.Scanner(System.in).nextLine();
+</span><span class='line'>      symbol[i] = symbol2;
+</span><span class='line'>      i++;
+</span><span class='line'>    }while (!(symbol[i-1].equals("=")));
+</span><span class='line'>
+</span><span class='line'>    //×÷の計算を行い、結果を右側に送る
+</span><span class='line'>
+</span><span class='line'>    i = 0;
+</span><span class='line'>    while (!(symbol[i].equals("="))){
+</span><span class='line'>      if (symbol[i].equals("*")){
+</span><span class='line'>        number[i+1] = number[i]*number[i+1];
+</span><span class='line'>      }else if (symbol[i].equals("/")){
+</span><span class='line'>        number[i+1] = number[i]/number[i+1];
+</span><span class='line'>      }
+</span><span class='line'>      i++;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    /*＋－を計算
+</span><span class='line'>    まず＋－があるところを探す
+</span><span class='line'>    ＋－を見つけたら、その右側で再び＋－があるところをさがす
+</span><span class='line'>    再び＋－を見つけたら、その左側の数値（ここに×÷の計算結果が入っている）と足し引きする
+</span><span class='line'>    */
+</span><span class='line'>
+</span><span class='line'>    i = 0;
+</span><span class='line'>    while(!(symbol[i].equals("="))){
+</span><span class='line'>      if(symbol[i].equals("+") || symbol[i].equals("-")){
+</span><span class='line'>        int m = i+1;
+</span><span class='line'>        while(!(symbol[m].equals("+") || symbol[m].equals("-")
+</span><span class='line'>                                       || symbol[m].equals("="))){
+</span><span class='line'>          m++;
+</span><span class='line'>        }
+</span><span class='line'>        if (symbol[i].equals("+")){
+</span><span class='line'>          number[m] = number[i] + number[m];
+</span><span class='line'>        }else{
+</span><span class='line'>          number[m] = number[i] - number[m];
+</span><span class='line'>        }
+</span><span class='line'>      }
+</span><span class='line'>      i++;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    //計算終了、結果を出力
+</span><span class='line'>
+</span><span class='line'>    System.out.println(number[i]);
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>めちゃ複雑になった。特に×÷の計算後の＋－のところ。<br/>
+もっとシンプルで簡単な方法あるのかなと思いつつも、他の方法を思いつかない。<br/>
+そして、すごく実装に時間がかかった。１０時間くらいはかかったと思う。
+それでも、基本的なコードだけで意外と電卓くらいなら作れちゃうんだなぁ、と驚いた。</p>
+
+<h3>まとめ</h3>
+
+<hr />
+
+<p>アルゴリズムって難しいな。これが思いつく限りベストな方法なんだけど、本当にベストなアルゴリズムかは確かめられないという&hellip; <br/>
+いろいろ悩みながらもアルゴリズムをひねり出すのは結構頭をつかうし、時間もかかった。プログラムの書き方も試行錯誤しながらなんとか動くものを書いた。<br/>
+総じて時間のかかる課題だったけど、結局自分の頭で（天下り的にではなく）何かをひねり出すことがいい経験になっていると感じる。<br/>
+一つ一つの課題に数日がかりで時間をかけていて、プログラミングスキル自体は急速に身についているわけではないのだけど、それでも自分の力で考え抜いて答えを出す力はついている気がする。<br/>
+エンジニアの仕事がどんなものかはまだまだ分からないのだけど、一つ思うのは、ソフトウェア開発の世界は日々技術が進歩していくので、当然エンジニアもそれについていかなければならないわけで、最先端についていく（あるいはそれを生み出す）には自分の頭で考えて、既存のものに頼らずに問題を解決する力が必要になるのだろう。そうだとすれば、今やっている課題は、エンジニアとしてのスキルそのものだけでなく、その基礎となる姿勢を身に着ける助けになっていのでは？？？（というポジティブシンキング）。</p>
+
+<p>今もまた新たな課題を与えられ、結構四苦八苦しながら取り組んでいるのだけど、考え抜く姿勢を持って取り組んでいきたい。</p>
+</div>
+
+
+  <footer>
+
+    <p class="meta">
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/entry/categories/work/'>work</a>, <a class='category' href='/blog/entry/categories/arugorizumu/'>アルゴリズム</a>
+  
+</span>
+
+
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sackle</span></span>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+    <a href="http://b.hatena.ne.jp/entry/https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/" class="hatena-bookmark-button" data-hatena-bookmark-title="Sachool Engineering Blog" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/" data-via="" data-counturl="https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/entry/2016/04/22/algorithm-search-1/" title="Previous Post: 課題報告　探索アルゴリズム【失敗編】">&laquo; 課題報告　探索アルゴリズム【失敗編】</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/entry/2016/04/22/first-task/" title="Next Post: 初めての課題">初めての課題 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/two-month-later/">入社から二ヶ月が経って</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/">【Octopress】記事の投稿手順</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/burogu/">ブログ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/lp-research/">ランディングページの制作（競合調査・研究）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/new-first-project/">先輩に頼り完成出来た初プロジェクト</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/entry/categories/amp/'>amp (1)</a></li><li><a href='/blog/entry/categories/centos/'>centos (1)</a></li><li><a href='/blog/entry/categories/design/'>design (2)</a></li><li><a href='/blog/entry/categories/google/'>google (1)</a></li><li><a href='/blog/entry/categories/linux/'>linux (3)</a></li><li><a href='/blog/entry/categories/lp/'>lp (2)</a></li><li><a href='/blog/entry/categories/octopress/'>octopress (3)</a></li><li><a href='/blog/entry/categories/other/'>other (1)</a></li><li><a href='/blog/entry/categories/vagrant/'>vagrant (2)</a></li><li><a href='/blog/entry/categories/web/'>web (2)</a></li><li><a href='/blog/entry/categories/wordpress/'>wordpress (1)</a></li><li><a href='/blog/entry/categories/work/'>work (11)</a></li><li><a href='/blog/entry/categories/arugorizumu/'>アルゴリズム (6)</a></li><li><a href='/blog/entry/categories/obujekuto-shiko/'>オブジェクト指向 (1)</a></li><li><a href='/blog/entry/categories/kurasu-zu/'>クラス図 (2)</a></li><li><a href='/blog/entry/categories/purojekuto/'>プロジェクト (1)</a></li><li><a href='/blog/entry/categories/gengo/'>言語 (1)</a></li><li><a href='/blog/entry/categories/dentaku/'>電卓 (2)</a></li></ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Sackle -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  - <span class="credit">Theme by <a href="http://www.gehaxelt.in">Gehaxelt</a></span>
+  <span class="credit">and <a href="http://www.it-solutions-neef.de">IT Solutions Neef</a></span>
+</p>
+
+</footer>
+  
+
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+/*
+        var disqus_identifier = 'https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/';
+        var disqus_url = 'https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/';
+        var disqus_script = 'embed.js';
+*/
+
+var disqus_config = function () {
+this.page.url = 'https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = `https://sachool.jp/blog/entry/2016/04/22/culculator-algorithm-th/`; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//sachool-blog.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//sachool-blog.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

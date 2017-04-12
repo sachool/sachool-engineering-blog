@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wordpress | Sachool Engineering Blog]]></title>
+  <link href="https://sachool.jp/blog/entry/categories/wordpress/atom.xml" rel="self"/>
+  <link href="https://sachool.jp/blog/"/>
+  <updated>2017-04-12T18:38:38+09:00</updated>
+  <id>https://sachool.jp/blog/</id>
+  <author>
+    <name><![CDATA[Sackle]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[wordpressサイトリニューアルをした事]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/11/25/renewal-site/"/>
+    <updated>2016-11-25T03:07:34+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/11/25/renewal-site</id>
+    <content type="html"><![CDATA[<p>昨日,積雪があって冬だなぁと感じるようになりました。暖かい寄せ鍋が食べたいk_yoshidaです。</p>
+
+<p>既存サイトをリニューアルを行いました。その事について記述していきたいと思います。</p>
+
+<!--more-->
+
+
+<h3>既存サイトをリニューアル</h3>
+
+<p>今回は,既存で動いてるサイトをリニューアルする案件に携わりました。Google
+目的として、既存サイトの使いづらさを無くして使いやすいようにする。また,より使いやすくするために機能追加が少しありました。<br/>
+WordPressのDBデータを取り出して加工をするような機能を拡張,呼び出しを行っていきました。<br/>
+まではいいのですが,<br/>
+WordPressの関数を使うとhtmlタグが付随された状態で表示されたり,自動でリスト表示されてしまう。などがあったため,HTML構造がバラバラになってしまいました。</p>
+
+<p>既存機能をそのまま使いたくてそのまま記述したら全く違う結果になって崩れていってしまいました。そのため正しくCSSがはまっていない事に&hellip;さらにAMP案件が</p>
+
+<p>AMPとはGoogle社が新しく提案しているカスタムHTML記述です。スマートフォンが普及に伴ってスマートフォン向けのために作られたカスタムHTMLです。<br/>
+詳しくは次の投稿に書きます。</p>
+
+<h3>遅延していくスケジュール</h3>
+
+<p>主に3点,が原因で遅延してしいました。</p>
+
+<ol>
+<li>既存のWordPressの機能をそのまま持ってきたため,HTML構造が崩れてしまった。</li>
+<li>AMP対応にするために躓きが非常に多かった事</li>
+<li>JavaScriptはまだ勉強し始めた段階で煮詰まってしまった事</li>
+</ol>
+
+
+<p>動作不良を起こしたとき,原因が全くわからなく先輩に聞くに聞けなく悩んでしまったのが時間を無駄にしてしまいました。
+1日の目標を立て余裕を持っていたのですが詰まりに詰まってくると1日の目標が達成できなくなってしまいました。
+先輩のフォローもあってか遅れながらもなんとかやり遂げました。</p>
+
+<h3>まとめ</h3>
+
+<p>Wordpressで詰まるというよりJavaScript,JQueryで詰まってしまっていたので,聞いたり,見たりしながら出来るようになりました。
+余裕がなくなってしまうと急に視野が狭まる事が自分の中に有ることがわかりました。</p>
+]]></content>
+  </entry>
+  
+</feed>

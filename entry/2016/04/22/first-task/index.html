@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>初めての課題 - Sachool Engineering Blog</title>
+  <meta name="author" content="Sackle">
+
+  
+  <meta name="description" content="エンジニアの学習の記録です。主に新入社員が更新していきます。">
+  <meta name="keywords" content="">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://sachool.jp/blog/entry/2016/04/22/first-task/">
+  <link href="/blog/favicon.png" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">var $220 = $.noConflict(true);</script>  
+  <script src="/blog/javascripts/menuToggle.js"></script>
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/blog/javascripts/ender.js"></script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+
+  <link href="/blog/atom.xml" rel="alternate" title="Sachool Engineering Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/earlyaccess/notosansjapanese.css" rel="stylesheet" type="text/css">
+
+
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74244767-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/blog/">Sachool Engineering Blog</a></h1>
+  
+    <h2>プログラミング学習の記録</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<div id="nav-box">
+  <div id="toggle"><a href="#">Menu</a></div>
+  <ul class="main-navigation">
+    <li><a href="https://sachool.jp/" target="_blank">Sachool</a></li>
+    <li><a href="/blog/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+  </ul>
+</div>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">初めての課題</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+
+<time class='entry-date updated' datetime='2016-04-22T16:35:48+09:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:35 pm</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>東京オフィスのイッセイです！</p>
+
+<p>未経験で入社してもう少しで1ヶ月が経ちますが、相変わらずアルゴリズムや基礎知識の無さとの闘いに奮闘しております。</p>
+
+<p><strong>サッカー馬鹿でも立派なエンジニアになれる！！</strong></p>
+
+<p>なんて事を言える日を目標に、またこれからエンジニアを目指す方の励みになれるよう頑張ります。<br/>
+どうか温かい目でよろしくお願いします。</p>
+
+<h2>最初の課題</h2>
+
+<p><strong>＋、－、＝のみを使用した電卓のフローチャート作成</strong></p>
+
+<p>初心者ならではの、躓いた所や考え方について書こうと思います。突っ込みどころは多々あるかと思いますが、ご容赦ください。</p>
+
+<!--more-->
+
+
+<p>普段当たり前に使っていた電卓ですが、いざその仕組みを文字にするとなると中々手が動きませんでした。<br/>
+その動かなさに自分でも驚きましたが、物事を論理的に考える力が本当に大切で、その力の無さが最初の壁でした。<br/>
+でもこれは毎日の積み重ねでしか身につける事ができないと思いますし、<br/>
+ひたすら考え抜く事が大切だと、日々頂く指摘を通じてからも実感しております。</p>
+
+<p>そして前提として、</p>
+
+<p><strong>コンピューターにはこちらから処理を命令してあげなければ実行することが出来ない！！</strong></p>
+
+<p>その為に、計算するのに必要なあらゆる事を認識していなければなりません。<br/>
+それをまず踏まえて私が書き出したものがこちら</p>
+
+<ul>
+<li>１数値を入力する</li>
+<li>２演算子を入力する</li>
+<li>３数値を入力する</li>
+<li>４「=」が入力されたら演算結果を表示する</li>
+</ul>
+
+
+<p>なんとなく大丈夫そうな気がします。<br/>
+というか実はこれで大丈夫だろうと思っていました。<br/>
+でもこれではまだ考えることが足りないんですね。</p>
+
+<ul>
+<li>入力された数値は本当に数値ですか？</li>
+<li>入力された演算子は本当に演算子ですか？</li>
+<li>もし違った時はどうしますか？</li>
+</ul>
+
+
+<p>こんなことも考えなくてはならないんですね。<br/>
+なるほどー!って感じでしたがこのご指摘を頂いてから少し考え方がわかったような気がしたのを覚えています。（実際の所は別として、、）</p>
+
+<p>勿論ですが、入力される演算子には「＋」の時、「－」の時、「＝」の時3パターンあります。<br/>
+コンピューターは勝手に演算子を判断をして計算してくれないので、それぞれの場合の処理を考え、処理を行う式にしなければいけないのです。</p>
+
+<p>ここまで考える事が出来れば第一ステップクリアというところでしょうか。</p>
+
+<h2>複数の計算式はどうする？</h2>
+
+<p><strong>５＋４－３＋２＋１＝</strong></p>
+
+<p>まずスタートはこっからです。</p>
+
+<ul>
+<li>変数aに5</li>
+<li>変数opに＋</li>
+<li>変数bに4</li>
+</ul>
+
+
+<p>難しいのは、この後です。</p>
+
+<p>変数opに合わせて演算をするのは先程も記述したとおりですが、<br/>
+演算結果はどこに。次に入力する「ー」は、４は、どこ代入しましょう？という所を考える必要があります。</p>
+
+<p>また、フローチャートは処理の流れを図にして記述していくので、同じ処理は繰り返して使用します。<br/>
+その為どの処理の前に流れを戻していくのかも効率的にする必要がありますし、戻す場所を間違えば正しい結果を得られなくなってしまいます。</p>
+
+<p>最初に考えたのは、</p>
+
+<p><strong>演算結果を変数xに代入し演算子入力した後、演算子判定の処理に戻るようにし、「＝」が入力されたら変数ｘを表示して終了。</strong></p>
+
+<p>今ではこれがおかしい事がすぐわかりますが、その時には間違いに気づけていませんでした。
+まず、演算子入力も一回の処理を再利用可能ですし、二回目以降の演算でもaとbを使用する事になってしますので正しい結果を得る事ができません。</p>
+
+<p>その為、</p>
+
+<p><strong>変数aと変数bの演算結果を変数xではなく変数aに代入し、演算子入力の前に処理を戻す。<br/>
+その後入力されるbと、aを使用して演算を行い、演算結果を再び変数aに代入。<br/>
+「＝」が入力れた時に、変数aを表示して終了する。</strong></p>
+
+<p>この修正で一応電卓としての機能を果たす事ができました。
+処理を戻す位置や、変数の使い方に頭が混乱しましたが、なんとか形にする事ができました。
+この処理の流れを掴む事と、変数を上手く使う事はアルゴリズムを考える上で大切になる考え方だと感じました。</p>
+
+<p>しかし考える事を目的としている為、後にもっと効率の良い方法に気づく事もあります。<br/>
+それは今回の場合もそうですが、課題を通して、指摘を頂いて間違いに気づく事が多く、考える力が足らないと痛感しております。<br/>
+今後も粘り強く頑張っていきたいです。</p>
+
+<p>しかしこれはまだあくまでも「＋」と「－」だけです。<br/>
+ご想像の通り、数時間後には、<strong>｢×」と｢÷」の存在を恨む</strong>ようになるのですが、それはまた次回という事で。</p>
+</div>
+
+
+  <footer>
+
+    <p class="meta">
+      
+
+
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sackle</span></span>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+    <a href="http://b.hatena.ne.jp/entry/https://sachool.jp/blog/entry/2016/04/22/first-task/" class="hatena-bookmark-button" data-hatena-bookmark-title="Sachool Engineering Blog" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="https://sachool.jp/blog/entry/2016/04/22/first-task/" data-via="" data-counturl="https://sachool.jp/blog/entry/2016/04/22/first-task/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/entry/2016/04/22/culculator-algorithm-th/" title="Previous Post: 計算機のアルゴリズム">&laquo; 計算機のアルゴリズム</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/entry/2016/04/25/algorithm-search-2/" title="Next Post: 課題報告　探索アルゴリズム【成功編】">課題報告　探索アルゴリズム【成功編】 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/two-month-later/">入社から二ヶ月が経って</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/">【Octopress】記事の投稿手順</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/04/12/burogu/">ブログ</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/lp-research/">ランディングページの制作（競合調査・研究）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/entry/2017/02/22/new-first-project/">先輩に頼り完成出来た初プロジェクト</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+    <ul id="category-list"><li><a href='/blog/entry/categories/amp/'>amp (1)</a></li><li><a href='/blog/entry/categories/centos/'>centos (1)</a></li><li><a href='/blog/entry/categories/design/'>design (2)</a></li><li><a href='/blog/entry/categories/google/'>google (1)</a></li><li><a href='/blog/entry/categories/linux/'>linux (3)</a></li><li><a href='/blog/entry/categories/lp/'>lp (2)</a></li><li><a href='/blog/entry/categories/octopress/'>octopress (3)</a></li><li><a href='/blog/entry/categories/other/'>other (1)</a></li><li><a href='/blog/entry/categories/vagrant/'>vagrant (2)</a></li><li><a href='/blog/entry/categories/web/'>web (2)</a></li><li><a href='/blog/entry/categories/wordpress/'>wordpress (1)</a></li><li><a href='/blog/entry/categories/work/'>work (11)</a></li><li><a href='/blog/entry/categories/arugorizumu/'>アルゴリズム (6)</a></li><li><a href='/blog/entry/categories/obujekuto-shiko/'>オブジェクト指向 (1)</a></li><li><a href='/blog/entry/categories/kurasu-zu/'>クラス図 (2)</a></li><li><a href='/blog/entry/categories/purojekuto/'>プロジェクト (1)</a></li><li><a href='/blog/entry/categories/gengo/'>言語 (1)</a></li><li><a href='/blog/entry/categories/dentaku/'>電卓 (2)</a></li></ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Sackle -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  - <span class="credit">Theme by <a href="http://www.gehaxelt.in">Gehaxelt</a></span>
+  <span class="credit">and <a href="http://www.it-solutions-neef.de">IT Solutions Neef</a></span>
+</p>
+
+</footer>
+  
+
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+/*
+        var disqus_identifier = 'https://sachool.jp/blog/entry/2016/04/22/first-task/';
+        var disqus_url = 'https://sachool.jp/blog/entry/2016/04/22/first-task/';
+        var disqus_script = 'embed.js';
+*/
+
+var disqus_config = function () {
+this.page.url = 'https://sachool.jp/blog/entry/2016/04/22/first-task/'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = `https://sachool.jp/blog/entry/2016/04/22/first-task/`; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//sachool-blog.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//sachool-blog.disqus.com/count.js" async></script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | Sachool Engineering Blog]]></title>
+  <link href="https://sachool.jp/blog/entry/categories/octopress/atom.xml" rel="self"/>
+  <link href="https://sachool.jp/blog/"/>
+  <updated>2017-04-12T18:38:38+09:00</updated>
+  <id>https://sachool.jp/blog/</id>
+  <author>
+    <name><![CDATA[Sackle]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[【Github】Webhooksを利用する]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/09/github-webhook-usage/"/>
+    <updated>2016-05-09T18:49:01+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/09/github-webhook-usage</id>
+    <content type="html"><![CDATA[<p>仙台ファクトリーのkish(@31_kish)です。<br/>
+ローカル環境で書いたブログの記事をPushすると、自動的にサーバーが更新される機能を実装しました。</p>
+
+<p>RubyでCGIを作って、GithubWebhooksを受け取るようにしています。</p>
+
+<!--more-->
+
+
+<h2>とりあえずスクリプトを書く</h2>
+
+<pre><code class="ruby hoge.rb">system("sh fuga.sh")
+</code></pre>
+
+<p>CGIのほうは、実行されたらシェルスクリプトを叩くだけです。<br/>
+何をやっているのか公開してしまうのが不安だったので、シェルスクリプトを経由するようにしています。</p>
+
+<pre><code class="sh fuga.sh">cd ..
+echo '-----' &gt;&gt; receiver_log
+date &gt;&gt; receiver_log
+sudo -u user git pull &gt;&gt; receiver_log
+exit
+</code></pre>
+
+<p>シェルスクリプトは、実行された日付を出力して <code>pull</code> コマンドを <code>user</code> 権限で実行する<br/>
+というものです。（実際のスクリプトとは少し違います。）</p>
+
+<h2>CGIを有効にする</h2>
+
+<p>Apacheの設定で有効にします。</p>
+
+<pre><code class="sh">$ sudo vim /etc/httpd/con.d/hoge.conf
+</code></pre>
+
+<pre><code class="sh hoge.conf">  &lt;Directory "/hoge/fuga/hooks"&gt;
+    Options +ExecCGI
+    Require all granted
+    AddHandler cgi-script .rb
+  &lt;/Directory&gt;
+</code></pre>
+
+<h2>Apacheがsudoで実行できるコマンドを制限する</h2>
+
+<pre><code class="sh">$ sudo visudo
+</code></pre>
+
+<p><code>visudo</code>で制限します。</p>
+
+<pre><code class="sh visudo">$ Defaults:apache !requiretty
+$ apache ALL=(user) NOPASSWD: file_path/hoge.rb, command_path/git
+</code></pre>
+
+<p>sudoを実行するためにはtty（SSHクライアントやコンソール上での実行）が必須です。</p>
+
+<p>そのままではwebから実行することができないので、１行目でapacheユーザーのみ<br/>
+必須ではなくしています。<br/>
+２行目では、apacheユーザーは外部からのアクセスを許可し、user権限でのみ<br/>
+sudoを実行できるようにしています。<br/>
+その後ろはパスワードなしで実行できるコマンドを制限しています。</p>
+
+<h2>Githubの設定をする</h2>
+
+<p>Githubのリポジトリの<code>Settings</code>から <code>Webhooks &amp; services</code> を設定して完了です。<br/>
+Githubの設定を行う前に、スクリプトのテストは十分に行うようにしましょう。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【CentOS7】Octopressでブログ作成]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/21/create-octopress/"/>
+    <updated>2016-04-21T17:17:07+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/21/create-octopress</id>
+    <content type="html"><![CDATA[<p>こんにちは、仙台ファクトリーのkish(@31_kish)です。</p>
+
+<p>CentOS7をインストールした直後から<br/>
+Octopressをプレビューできるまでの手順を紹介します。</p>
+
+<p>私の環境では、VirtualBoxでCentOSの仮想環境を作成して行っています。</p>
+
+<p>バッククオート(｀)の中で＃を使うと、ページが生成できないようです。<br/>
+投稿の際はご注意ください。</p>
+
+<!-- more -->
+
+
+<h2>パッケージをアップデートして再起動する</h2>
+
+<p><strong>rootユーザーで行います。</strong>
+まずは念のためアップデートしておきます。
+<code>
+＃ yum -y update
+</code>
+終わったら再起動
+<code>
+＃ reboot
+</code></p>
+
+<h2>net-tools、vimをインストールする</h2>
+
+<p>最小構成のCentOS7では <code>ifconfig</code> , <code>vim</code> が使えないのでインストールします。
+<code>
+＃ yum -y install net-tools vim
+</code></p>
+
+<h2>一般ユーザーを作成する</h2>
+
+<p>ここではadminというユーザーを作成します。</p>
+
+<pre><code>＃ useradd admin
+＃ passwd admin
+New password: 
+Retype new password: 
+passwd: all authentication tokens updated successfully
+</code></pre>
+
+<h2>rootにログインできるユーザーを管理者のみにする</h2>
+
+<p>adminをwheelグループに追加します。
+<code>
+＃ usermod -G wheel admin
+＃ vim /etc/pam.d/su
+</code>
+<code>
+auth required pam_wheel.so use_id &lt;- コメントを解除する
+</code></p>
+
+<h2>SELinuxを無効化する</h2>
+
+<pre><code>＃ vim /etc/sysconfig/selinux
+</code></pre>
+
+<pre><code>SELINUX=disabled &lt;- このように変更する
+</code></pre>
+
+<h2>SSHの設定をする</h2>
+
+<pre><code>＃ vim /etc/ssh/sshd_config
+</code></pre>
+
+<pre><code>Port 22 &lt;- 接続を受け付けるポート
+
+PermitedRootLogin no &lt;- rootログインを禁止
+
+PasswordAuthentication yes &lt;- パスワード認証を許可する
+</code></pre>
+
+<h2>sshdを再起動する</h2>
+
+<pre><code>＃ systemctl restart sshd
+</code></pre>
+
+<p><strong>ここまでroot</strong></p>
+
+<p><strong>ここからはadminで行う</strong></p>
+
+<h2>gitをインストールする</h2>
+
+<pre><code>$ sudo yum -y install git
+</code></pre>
+
+<h2>必要なパッケージをインストールする</h2>
+
+<p>rubyのインストールに必要なパッケージです。
+<code>
+$ sudo yum -y install gcc-c++ glibc-headers openssl-devel readline libyaml-devel readline-devel zlib zlib-devel bzip2
+</code></p>
+
+<h2>rbenvをインストールする</h2>
+
+<p><a href="http://www.task-notes.com/entry/20150624/1435114800">CentOSにrbenvをインストールする方法</a><br/>
+参考にしました。</p>
+
+<p>環境変数にパスを通すため、一旦rootで作業をします。
+<code>
+$ su -
+パスワード
+</code>
+<code>
+＃ git clone https://github.com/sstephenson/rbenv.git /usr/local/src/rbenv
+＃ echo 'export RBENV_ROOT="/usr/local/src/rbenv"' &gt;&gt; /etc/profile.d/rbenv.sh
+＃ echo 'export PATH="${RBENV_ROOT}/bin:${PATH}"' &gt;&gt; /etc/profile.d/rbenv.sh
+＃ echo 'eval "$(rbenv init -)"' &gt;&gt; /etc/profile.d/rbenv.sh
+＃ source /etc/profile.d/rbenv.sh
+＃ rbenv -v
+rbenv 1.0.0-19-g29b4da7
+</code></p>
+
+<h2>ruby-buildをインストール</h2>
+
+<pre><code>＃ git clone https://github.com/sstephenson/ruby-build.git /usr/local/src/rbenv/plugins/ruby-build
+</code></pre>
+
+<h2>rubyをインストール</h2>
+
+<p>インストールするバージョンを確認します。
+<code>
+＃ rbenv install --list
+</code>
+今回は2.3.0をインストールします。
+<code>
+＃ rbenv install 2.3.0
+＃ rbenv global 2.3.0
+＃ ruby -v
+ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-linux]
+</code>
+インストールが完了したら、rootからログアウトします。
+<code>
+$ exit
+</code></p>
+
+<h2>OctopressをGithubからcloneする</h2>
+
+<pre><code>$ mkdir ocopress
+$ git clone git://github.com/imathis/octopress.git octopress/
+$ cd octopress
+</code></pre>
+
+<h2>bundlerをインストール</h2>
+
+<pre><code>$ sudo gem install bundler
+</code></pre>
+
+<p><code>gemコマンドが見つかりません</code><br/>
+というメッセージが表示されたらサーバーにログインし直してください。<br/>
+それでも同じメッセージが表示されたらrootユーザーに切り替えて実行してください。</p>
+
+<p><code>javascript runtime</code>が見つからないというエラーが発生するため<br/>
+<code>Gemfile</code>に追記してインストールします。</p>
+
+<pre><code>$ vim Gemfile
+</code></pre>
+
+<pre><code>gem 'therubyracer'
+gem 'execjs'
+</code></pre>
+
+<pre><code>$ bundle --path vendor/bundle
+</code></pre>
+
+<h2>Octopressのデフォルトテーマをインストール</h2>
+
+<pre><code>$ bundle exec rake install
+ Copying classic theme into ./source and ./sass
+mkdir -p source
+cp -r .themes/classic/source/. source
+mkdir -p sass
+cp -r .themes/classic/sass/. sass
+mkdir -p source/_posts
+mkdir -p public
+</code></pre>
+
+<h2>ページを生成</h2>
+
+<pre><code>$ bundle exec rake generate
+</code></pre>
+
+<h2>Gemfileに追記する</h2>
+
+<p>プレビューに<code>thin</code>を利用するためファイルを修正していきます。
+<code>
+$ vim Gemfile
+</code>
+<code>
+gem 'thin', '~&gt;1.5.0'
+</code></p>
+
+<p>追記したらインストール</p>
+
+<pre><code>$ bundle --path vendor/bundle
+</code></pre>
+
+<h2>Rakefileを修正</h2>
+
+<pre><code>$ vim Rakefile
+</code></pre>
+
+<pre><code>-   puts "Starting to watch source with Jekyll and Compass. Starting Rack on port #{server_port}"
+
++   puts "Starting to watch source with Jekyll and Compass. Starting Thin on port #{server_port}"
+---
+
+-   rackupPid = Process.spawn("rackup --port #{server_port}")
+
++   thinPid = Process.spawn("thin start --port #{server_port}")
+---
+
+-     [jekyllPid, compassPid, rackupPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+
++     [jekyllPid, compassPid, thinPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+---
+
+-   [jekyllPid, compassPid, rackupPid].each { |pid| Process.wait(pid) }
+
++   [jekyllPid, compassPid, thinPid].each { |pid| Process.wait(pid) }
+---
+</code></pre>
+
+<p><code>-</code>の行を<code>+</code>のように書き換えてください。</p>
+
+<p>修正が完了したらプレビューしてみます。
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake preview
+</span><span class='line'>Starting to watch source with Jekyll and Compass. Starting Thin on port 4000&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;Using rack adapter
+</span><span class='line'>Thin web server (v1.5.1 codename Straight Razor)
+</span><span class='line'>Maximum connections set to 1024
+</span><span class='line'>Listening on 0.0.0.0:4000, CTRL+C to stop&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;p&gt;Compass is watching for changes. Press Ctrl-C to Stop.
+</span><span class='line'>Configuration file: /home/admin/octopress/_config.yml
+</span><span class='line'>            Source: source
+</span><span class='line'>       Destination: public
+</span><span class='line'>      Generating&hellip;
+</span><span class='line'>                    done.
+</span><span class='line'> Auto-regeneration: enabled for &lsquo;source&rsquo;
+</span><span class='line'>    write public/stylesheets/screen.css</span></code></pre></td></tr></table></div></figure></p></blockquote></blockquote></blockquote>
+
+<p>ブラウザでサーバーのIPアドレスのポート4000にアクセスすると、ブログが表示されます。<br/>
+VirtualBoxを利用している方はポートフォワーディングなどの設定をして<br/>
+ゲストOSとホストOSが通信できる状態にしてください。</p>
+
+<p>プレビューを起動している状態だと、記事の編集がリアルタイムで確認することができます。</p>
+
+<p>ブログのタイトルなどの設定は<code>_config.yml</code>を編集してください。</p>
+
+<hr />
+
+<p>参考URL<br/>
+<a href="http://blog.glidenote.com/blog/2012/10/31/thin-octopress/">OctopressのRake Previewにthinを利用してプレビューを高速化する</a><br/>
+<a href="http://blog.shiroyama.us/blog/2014/02/26/octopress/">エンジニアのブログは Octopress が最適</a><br/>
+<a href="http://www.mk-mode.com/octopress/2012/12/10/octopress-construction-of-environment/">Octopress - 環境構築！</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【Octopress】記事の投稿手順]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/04/14/posts-process/"/>
+    <updated>2016-04-14T12:19:09+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/04/14/posts-process</id>
+    <content type="html"><![CDATA[<p>こんにちは、仙台ファクトリーのkish(@31_kish)です。<br/>
+まずはブログについて簡単にご紹介します。</p>
+
+<p>このブログは<code>Octopress</code>を利用しています。<br/>
+<code>Octopress</code>で記事を書くときは基本的にMarkdown記法を使います。<br/>
+Markdown記法については<a href="http://kojika17.com/2013/01/starting-markdown.html">こちら</a>が参考になります。<br/>
+学んだことを積極的にアウトプットしていきたいと思います！</p>
+
+<p>実際の記事の書き方を紹介します。</p>
+
+<!-- more -->
+
+
+<h3>新規ページを作る前に</h3>
+
+<p><strong>必ずローカル環境を最新の状態にしてください！</strong></p>
+
+<pre><code>$ git pull
+</code></pre>
+
+<h3>新規ページの生成</h3>
+
+<pre><code>$ bundle exec rake new_post
+Enter a title for your post:
+</code></pre>
+
+<p> 記事の投稿手順タイトルを入力すると<br/>
+<code>source/_posts/*.markdown</code>という新規ページが生成されます。</p>
+
+<h3>新規ページを編集する</h3>
+
+<p><code>$ vim source/_posts/*.markdown</code></p>
+
+<pre><code>---
+layout: post
+title: "*"
+date: 2013-04-16 22:25
+comments: true
+categories: 
+description: 
+keywords: 
+---
+
+ここに本文を書いていく。
+</code></pre>
+
+<p><code>title: ""</code>には記事のタイトルを入力してください。<br/>
+<code>categories</code>には該当するカテゴリを入力してください。<br/>
+該当するものがない場合は入力すると自動的に作成されます。<br/>
+複数のカテゴリを登録する場合は<code>['category1', 'category2']</code>と入力します。</p>
+
+<h3>画像を載せる</h3>
+
+<p><code>source/images/</code>に画像をアップロードしてください。 <br/>
+<code>![alt octopress](/images/sample.png)</code></p>
+
+<p>altはhtmlの属性です。<br/>
+()の中身がファイルのパスになります。<br/>
+URLを指定することも可能です。</p>
+
+<p>編集が完了したら保存します。</p>
+
+<h3>作成したページを確認する</h3>
+
+<p><code>$ bundle exec rake preview</code></p>
+
+<p><code>localhost:4040/blog</code>にブラウザからアクセスすると<br/>
+確認することができます。</p>
+
+<h3>編集が終わったら</h3>
+
+<p><code>$ bundle exec rake gen_deploy</code></p>
+
+<p>デプロイすると<code>sachool.jp/blog</code>が更新されます。</p>
+
+<p>最後に、<code>Push</code>するのを忘れずに！</p>
+
+<pre><code>$ git add -A
+$ git commit -a
+$ git push -u origin source
+</code></pre>
+
+<p>コミットメッセージはわかりやすいものを入力してください。<br/>
+例：記事を投稿した<br/>
+以上でブログの更新ができました。</p>
+]]></content>
+  </entry>
+  
+</feed>
