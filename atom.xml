@@ -4,7 +4,7 @@
   <title><![CDATA[Sachool Engineering Blog]]></title>
   <link href="https://sachool.jp/blog/atom.xml" rel="self"/>
   <link href="https://sachool.jp/blog/"/>
-  <updated>2017-04-12T19:05:05+09:00</updated>
+  <updated>2017-04-12T19:21:53+09:00</updated>
   <id>https://sachool.jp/blog/</id>
   <author>
     <name><![CDATA[Sackle]]></name>
@@ -224,15 +224,6 @@ Ruby on Rails４を使い作る為、まずrailsの勉強から始めました�
 また、もっといいプログラムが書けるよう勉強して行きたいとも考えています。</p>
 
 <p>次のプロジェクトも頑張って参加して行きたいと考えています</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[投稿サンプル]]></title>
-    <link href="https://sachool.jp/blog/entry/2017/02/15/sample/"/>
-    <updated>2017-02-15T15:03:22+09:00</updated>
-    <id>https://sachool.jp/blog/entry/2017/02/15/sample</id>
-    <content type="html"><![CDATA[<p>サンプル</p>
 ]]></content>
   </entry>
   
@@ -1696,6 +1687,100 @@ Vagrantを使って仮想OSの立ち上げまでできるようになること�
 自動化できるところは自動化して生産性UP!</p>
 
 <p>今回は以上です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[【Github】Webhooksを利用する]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/09/github-webhook-usage/"/>
+    <updated>2016-05-09T18:49:01+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/09/github-webhook-usage</id>
+    <content type="html"><![CDATA[<p>仙台ファクトリーのkish(@31_kish)です。<br/>
+ローカル環境で書いたブログの記事をPushすると、自動的にサーバーが更新される機能を実装しました。</p>
+
+<p>RubyでCGIを作って、GithubWebhooksを受け取るようにしています。</p>
+
+<!--more-->
+
+
+<h2>とりあえずスクリプトを書く</h2>
+
+<figure class='code'><figcaption><span>hoge.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">system</span><span class="p">(</span><span class="s2">&quot;sh fuga.sh&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>CGIのほうは、実行されたらシェルスクリプトを叩くだけです。<br/>
+何をやっているのか公開してしまうのが不安だったので、シェルスクリプトを経由するようにしています。</p>
+
+<figure class='code'><figcaption><span>fuga.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> ..
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;-----&#39;</span> &gt;&gt; receiver_log
+</span><span class='line'>date &gt;&gt; receiver_log
+</span><span class='line'>sudo -u user git pull &gt;&gt; receiver_log
+</span><span class='line'><span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>シェルスクリプトは、実行された日付を出力して <code>pull</code> コマンドを <code>user</code> 権限で実行する<br/>
+というものです。（実際のスクリプトとは少し違います。）</p>
+
+<h2>CGIを有効にする</h2>
+
+<p>Apacheの設定で有効にします。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo vim /etc/httpd/con.d/hoge.conf
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>hoge.conf</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>  &lt;Directory <span class="s2">&quot;/hoge/fuga/hooks&quot;</span>&gt;
+</span><span class='line'>    Options +ExecCGI
+</span><span class='line'>    Require all granted
+</span><span class='line'>    AddHandler cgi-script .rb
+</span><span class='line'>  &lt;/Directory&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Apacheがsudoで実行できるコマンドを制限する</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo visudo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>visudo</code>で制限します。</p>
+
+<figure class='code'><figcaption><span>visudo</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>Defaults:apache !requiretty
+</span><span class='line'><span class="nv">$ </span>apache <span class="nv">ALL</span><span class="o">=(</span>user<span class="o">)</span> NOPASSWD: file_path/hoge.rb, command_path/git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sudoを実行するためにはtty（SSHクライアントやコンソール上での実行）が必須です。</p>
+
+<p>そのままではwebから実行することができないので、１行目でapacheユーザーのみ<br/>
+必須ではなくしています。<br/>
+２行目では、apacheユーザーは外部からのアクセスを許可し、user権限でのみ<br/>
+sudoを実行できるようにしています。<br/>
+その後ろはパスワードなしで実行できるコマンドを制限しています。</p>
+
+<h2>Githubの設定をする</h2>
+
+<p>Githubのリポジトリの<code>Settings</code>から <code>Webhooks &amp; services</code> を設定して完了です。<br/>
+Githubの設定を行う前に、スクリプトのテストは十分に行うようにしましょう。</p>
 ]]></content>
   </entry>
   
