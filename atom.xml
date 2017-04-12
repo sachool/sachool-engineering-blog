@@ -4,7 +4,7 @@
   <title><![CDATA[Sachool Engineering Blog]]></title>
   <link href="https://sachool.jp/blog/atom.xml" rel="self"/>
   <link href="https://sachool.jp/blog/"/>
-  <updated>2017-04-12T18:56:15+09:00</updated>
+  <updated>2017-04-12T19:05:05+09:00</updated>
   <id>https://sachool.jp/blog/</id>
   <author>
     <name><![CDATA[Sackle]]></name>
@@ -18,15 +18,15 @@
     <link href="https://sachool.jp/blog/entry/2017/04/12/two-month-later/"/>
     <updated>2017-04-12T17:43:49+09:00</updated>
     <id>https://sachool.jp/blog/entry/2017/04/12/two-month-later</id>
-    <content type="html"><![CDATA[<p>仙台のhです。入社してもうすぐ二ヶ月。あっという間でした。</p>
+    <content type="html"><![CDATA[<p>仙台のhです。入社してもうすぐ二ヶ月半。あっという間でした。</p>
 
-<p>私はもともとサクール（Sachool）を受講していたので、入社までの経緯～入社してから～のことを書きたいと思います。</p>
+<p>私はもともとサクール（Sachool）を受講していたので、入社までの経緯～～、入社してから～～、のことを書きたいと思います。</p>
 
 <!--more-->  
 
 
 <p>エンジニアとはかけ離れていた異業種で働いていましたが、なんやかんやあって興味を持ち、自分で基礎学習から始めました。<br/>
-座学など学んでみたものの、それがどこに繋がるのか?何が必要なのか?などわからず、どこかのスクールで勉強を、と思いこのsachoolの受講を決めました。</p>
+座学など学んでみたものの、それがどこに繋がるのか?何が必要なのか?などわからず、どこかのスクールで勉強を、と思いこのSachoolの受講を決めました。</p>
 
 <p>基礎コースではプログラミングを行う以前の基礎を学び、その後PHPコースも受講し、そこでプログラミングを初体験しました。<br/>
 最後の方で、受講生みんなでひとつのショッピングサイトを作りました。私が担当したところはデータベースを使い、会員の新規登録・ログイン・パスワード再発行の処理でした。</p>
@@ -56,7 +56,7 @@ Sackleへ入社することができ、現在はjavaの書き方やオブジェ�
 最後に、これを書いているときにSlackで流れてきたメッセージの中にサイトリンクがありました。<br/>
 「そうだそうだ、、、！！」とサイトを見て感じたので貼ります。↓↓↓</p>
 
-<p><a href="http://qiita.com/Mic-U/items/f9de1c08c47c50620905">リンク</a></p>
+<p><a href="http://qiita.com/Mic-U/items/f9de1c08c47c50620905">プログラマたる者、人に頼る前にこれぐらいはやっておきたい</a></p>
 
 <p>それでは失礼します！</p>
 ]]></content>
