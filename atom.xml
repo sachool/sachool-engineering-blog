@@ -4,7 +4,7 @@
   <title><![CDATA[Sachool Engineering Blog]]></title>
   <link href="https://sachool.jp/blog/atom.xml" rel="self"/>
   <link href="https://sachool.jp/blog/"/>
-  <updated>2017-04-12T18:41:58+09:00</updated>
+  <updated>2017-04-12T18:46:30+09:00</updated>
   <id>https://sachool.jp/blog/</id>
   <author>
     <name><![CDATA[Sackle]]></name>
@@ -64,24 +64,6 @@ sackleへ入社することができ、現在はjavaの書き方やオブジェ�
 <p><a href="http://qiita.com/Mic-U/items/f9de1c08c47c50620905">リンク</a></p>
 
 <p>それでは失礼します！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[【Octopress】記事の投稿手順]]></title>
-    <link href="https://sachool.jp/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun/"/>
-    <updated>2017-04-12T16:21:48+09:00</updated>
-    <id>https://sachool.jp/blog/entry/2017/04/12/octopress-kiji-no-to-ko-tejun</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ブログ]]></title>
-    <link href="https://sachool.jp/blog/entry/2017/04/12/burogu/"/>
-    <updated>2017-04-12T16:20:16+09:00</updated>
-    <id>https://sachool.jp/blog/entry/2017/04/12/burogu</id>
-    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
@@ -1378,6 +1360,347 @@ IDEなどでクラスを作った場合、処理の流れがテストできる�
 
 <p>はじめはViewがModelのインスタンスを持っていて複雑になっていたが<br/>
 ご指摘をいただき、シンプルにまとめることができた。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ネスカフェバリスタのクラス図を作ってみた]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/11/nescafe-class/"/>
+    <updated>2016-05-11T16:05:55+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/11/nescafe-class</id>
+    <content type="html"><![CDATA[<p>どうも！仙台ファクトリーのkouです。<br/>
+今回は、「ネスカフェバリスタ」のクラス図と格闘した話を綴っていきたいと思います。</p>
+
+<!-- more -->
+
+
+<h2>クラス図とは何か</h2>
+
+<p>クラス図とは、一言で言うと<code>オブジェクト同士の関係性</code>を示したものです。<br/>
+どういう風に動くかなどは一切考慮せずに、構造だけを示します。</p>
+
+<h3>記述方法</h3>
+
+<p>次のように記載します。<br/>
+-&mdash;&mdash;&mdash;&ndash;<br/>
+| クラス名 | <br/>
+-&mdash;&mdash;&mdash;&ndash;<br/>
+|    属性    | <br/>
+-&mdash;&mdash;<br/>
+|    操作    | <br/>
+-&mdash;&mdash;</p>
+
+<p>見づらくてすみません。<br/>
+これを1つのクラスとして、各々のクラスを特殊な線形（関連とか集約）で繋いでいきます。<br/>
+詳しくは、<a href="http://www.itsenka.com/contents/development/uml/class.html">IT戦科さんのクラス図（Class Diagram）</a>が参考になります。</p>
+
+<h2>方針</h2>
+
+<p>さて、ざっくりクラス図の書き方を押さえた上で作成に入ったわけですが、私は次のような方針を立ててクラス図の作成を進めました。</p>
+
+<ul>
+<li>①取り扱い説明書を読んで、どういう表示・機能があるか把握</li>
+<li>②それらからオブジェクトを抽出</li>
+<li>③そのオブジェクトの属性、操作を考える</li>
+<li>④それらのオブジェクト間の関係性を記述する</li>
+</ul>
+
+
+<h2>①表示・機能の抽出</h2>
+
+<p>まずは表面的な部分を抽出してみました。</p>
+
+<h3>パネル表示</h3>
+
+<ul>
+<li>通常表示</li>
+<li>コーヒー抽出表示</li>
+<li>コーヒー抽出量調整中表示</li>
+<li>カップ温め表示</li>
+<li>電源切表示及びオートオフ表示</li>
+<li>メンテナンス表示</li>
+<li>リンス表示</li>
+<li>給水お知らせ表示</li>
+<li>抽出準備表示</li>
+<li>各種エラー表示</li>
+</ul>
+
+
+<p>点灯パネルは6つしかないのに、パネルの組み合わせや色の変化でこれだけの表示種類がありました。</p>
+
+<h3>機能</h3>
+
+<ul>
+<li>コーヒー作成機能</li>
+<li>すすぎ機能</li>
+<li>カップあたため機能  ＊ブラック系のみ可能</li>
+<li>湯量調整機能  ＊ブラック系のみ可能</li>
+</ul>
+
+
+<p>ボタンの同時押しなどですすぎ機能やカップのあたためができます。
+普段は、電源ボタンを押して飲みたいコーヒーのボタンを押すだけで出来上がるわけですが、詳しく見るとこのように多くの機能があります。 カップあたため機能を使っている人（というか知ってる人）はいるんでしょうか。。。</p>
+
+<p>ちなみに私はコーヒー飲まないです。</p>
+
+<h2>②オブジェクトの抽出</h2>
+
+<h4><code>ここがもっとも苦戦したところです。 </code></h4>
+
+<p>どれをどうオブジェクトにすればいいのか非常に悩みました。  さっぱり分からないんです。<br/>
+最初は、ネスカフェ本体をネスカフェクラスとし、そして実際にコーヒーを作成する内部の部分をコーヒークラスとし、2つのクラスに詰め込もうとしました。<br/>
+ネスカフェクラスがViewController担当、コーヒークラスがModel担当です。</p>
+
+<p><img src="https://sachool.jp/blog/images/class1.png" alt="alt octopress" /></p>
+
+<p>ちなみにどうして、MVCモデルで考えたかというと</p>
+
+<ul>
+<li>M :　内部</li>
+<li>V :　タッチパネル</li>
+<li>C :　ボタン</li>
+</ul>
+
+
+<p>という風に見立てることができたからです。</p>
+
+<p>上図でチェックしてもらったところ、更に細分化できるという指摘を受けたので、修正したのが下記になります。</p>
+
+<p><img src="https://sachool.jp/blog/images/class2.png" alt="alt octopress" /></p>
+
+<h2>③オブジェクトの属性、操作の考察</h2>
+
+<p>実際には②と同時並行に進めていましたが、</p>
+
+<h4><code>ここも苦戦しました。</code></h4>
+
+<p>構造を書く前に属性や操作をあちこちに書いていたため、どのクラスが何を管理するのかがぐちゃぐちゃになってしまったからです。（手順通りにやってれば。。。）<br/>
+だからノートに役割をメモ書きしています。</p>
+
+<p>まずはこちらを作成<br/>
+<img src="https://sachool.jp/blog/images/class3.png" alt="alt octopress" /></p>
+
+<p>しかし、<br/>
+・NescafeBlackModelが入力を持っているのはおかしい<br/>
+・Controllerが曖昧<br/>
+ということで考え直して、修正したのがこちら。</p>
+
+<p><img src="https://sachool.jp/blog/images/class4.png" alt="alt octopress" /></p>
+
+<p>Controllerにボタンを押した際のイベント処理を全てまとめました。</p>
+
+<h2>④オブジェクトの関係性の考察</h2>
+
+<ul>
+<li>各々のコーヒークラスがNescafeMakeModelクラスを継承【汎化】</li>
+<li>MVC同士は、1:1の関連【関連】</li>
+</ul>
+
+
+<p><img src="https://sachool.jp/blog/images/class5.png" alt="alt octopress" /></p>
+
+<h2>課題の所感</h2>
+
+<p>オブジェクトの関係性を表すのがクラス図なのに、属性や操作のことを考えすぎて思いの外に時間が取られてしまいました。<br/>
+MVCモデルで考えられることに気づいたときに、一瞬視界が開けた気はしたのですが、なかなか細分化が進まずに苦戦しました。また、多重度も怪しいですし、ビューなんか。。。</p>
+
+<p>まだフィードバックを受けてないので、受け次第修正点を追記していこうと思います。</p>
+
+<p>今回は以上です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[新卒エンジニアがVagrantを使ってみた]]></title>
+    <link href="https://sachool.jp/blog/entry/2016/05/11/vagrant-env/"/>
+    <updated>2016-05-11T15:13:54+09:00</updated>
+    <id>https://sachool.jp/blog/entry/2016/05/11/vagrant-env</id>
+    <content type="html"><![CDATA[<p>どうも！仙台ファクトリー新卒のkouです。<br/>
+今回は、Vagrantを使ってみたのでまとめてみたいと思います。<br/>
+Vagrantを使って仮想OSの立ち上げまでできるようになることを目指します。</p>
+
+<!-- more -->
+
+
+<h2>１． Vagrantとは</h2>
+
+<h3>Vagrantの概要</h3>
+
+<p>Vagrantは、仮想環境を簡単に構築できるツールです。<br/>
+仮想化ソフトであるVirtual Boxと併用して使います。<br/>
+これまで面倒だった環境構築もコマンドを数行打つだけで完了させることができます。</p>
+
+<p>Vagrantを利用することで次のことが実現できます。</p>
+
+<ul>
+<li>ローカル環境と本番環境を揃える</li>
+<li>チームで開発する際の環境を揃える（＊構成管理ツールが必要）</li>
+</ul>
+
+
+<p>他にもいろいろできることはありますが、Vagrantを使うことでの最大の恩恵は
+<code>大幅な時間の節約</code><br/>
+これに尽きるのではないかと思います。  Vagrantの使い方を覚えることで、環境構築に費やす非生産的な時間から解放されて時間を有効に使えるようになると思います。</p>
+
+<h3>Vagrantで押さえておきたい用語</h3>
+
+<ul>
+<li><p>Boxファイル<br/>
+→Vagrant用にカスタマイズされたOSのイメージファイル。<br/>
+　ネット上で配布されているものもある。（配布先は後述）自作も可能。<br/>
+<code>＊BoxファイルがないとVagrantは使えないので注意</code></p></li>
+<li><p>Vagrantfile<br/>
+→仮想マシンの設定が書かれているファイル。<br/>
+　ネットワーク設定やマシンスペック設定などが書かれている。<br/>
+<code>＊Vagrant初期化時に生成される</code>
+　</p></li>
+</ul>
+
+
+<h2>２．事前準備</h2>
+
+<ul>
+<li><a href="https://www.virtualbox.org/">VirtualBox公式サイト</a>より、OSに合ったVirtualBoxをダウンロードしインストール</li>
+<li><a href="https://www.vagrantup.com/l">Vagrant公式サイト</a>より、OSに合ったVagrantをダウンロードしインストール</li>
+<li><a href="http://">Vagrantbox.es</a>（＊1）より、必要なboxファイルをダウンロードorリンクの取得</li>
+</ul>
+
+
+<h4>Vagrantがインストールされたか確認</h4>
+
+<p>Vagrantをインストールしたら、コマンドラインで</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant -v</span></code></pre></td></tr></table></div></figure>
+
+
+<p>を入力し、vagrantが正しくインストールされているか確認しましょう。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Vagrant 1.8.1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>というようにバージョンが表示されれば正常にインストールされています。</p>
+
+<p>＊1 Vagrantbox.esは有志が作ったサイト。ここに公開されているBOXファイルの安全性は保障されてないので使用は自己責任で。</p>
+
+<h2>３．Vagrantの設定</h2>
+
+<p>ここからは、コマンドラインで操作を行います。</p>
+
+<h4>１．Boxの追加</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box add [Box名] [BoxのURL]
+</span><span class='line'>
+</span><span class='line'>例：boxファイルをサーバーから取得する場合
+</span><span class='line'>$ vagrant box add centos http://github.com/~~~/centos.box
+</span><span class='line'>
+</span><span class='line'>例：boxファイルをフォルダから指定する場合
+</span><span class='line'>$ vagrant box add centos C:/Users/[ユーザー名]/centos.box</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>２．Boxの追加の確認</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と入力し、</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Box名]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>と表示されればVagrantへのBOXの追加は完了です。</p>
+
+<h4>３．作業用フォルダの作成</h4>
+
+<p>仮想環境用の作業フォルダを作成します。
+今回は（ユーザー名）ディレクトリ直下にcentosというフォルダを作成します。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ユーザーフォルダ直下に移動
+</span><span class='line'>$ cd /c/users/[ユーザー名]
+</span><span class='line'>
+</span><span class='line'>centosフォルダを作成
+</span><span class='line'>$ mkdir centos
+</span><span class='line'>
+</span><span class='line'>作成したフォルダに移動
+</span><span class='line'>$ cd centos</span></code></pre></td></tr></table></div></figure>
+
+
+<p>＊フォルダの作成は、デスクトップ上で行っても構いません。</p>
+
+<p><code>vagrantを立ち上げる際は作成したフォルダに移動してから以降のコマンドを実行するようにします</code></p>
+
+<h4>４．vagrantの初期化</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant init [Box名]
+</span><span class='line'>例
+</span><span class='line'>$ vagrant init centos</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで、centosフォルダ上に1.で追加したboxファイルを起動するように設定されたvagrantfileが作成されます。</p>
+
+<h4>５．vagrantの立ち上げ</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant up</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これでvagrantが起動し、仮想マシンが立ち上がります。</p>
+
+<h4>６．仮想マシンへログイン</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>これで仮想マシンを弄れるようになります。
+＊windowsのコマンドプロンプトではssh接続ができないので、MinGWなどをインストールすることをお勧めします。</p>
+
+<h4>７．vagrantの終了</h4>
+
+<p>仮想マシンを弄り終わったら次のコマンドで停止してあげましょう。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant halt</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>８．vagrantの削除</h4>
+
+<p>仮想マシンが不要になったら次のコマンドで削除できます。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant destroy</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>４．まとめ</h2>
+
+<p>今回は、簡単なローカル開発環境の構築を行ってみました。
+まだまだ使いこなせてませんが、少しずつ使い慣れていきたいと思います。</p>
+
+<p>今後は、Chefも触ってみて環境構築も自動化することを目指したいと思います。
+自動化できるところは自動化して生産性UP!</p>
+
+<p>今回は以上です。</p>
 ]]></content>
   </entry>
   
